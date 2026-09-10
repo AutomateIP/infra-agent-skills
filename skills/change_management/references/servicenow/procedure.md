@@ -1,0 +1,124 @@
+# ServiceNow — Change Management Lifecycle Procedure
+
+Create, update, approve/reject, gate-check, and close a ServiceNow change request via the `sn_chg_rest`
+Change Management API. Covers create, read, update/close, approve/reject, and gate-check — does not
+cover delete, CI association, conflict-checking, scheduling, or change-task endpoints. Assumes an
+authenticated tool for this API (`change_manager` or `itil` read+write role, `sn_change_read` for
+read-only, or `admin`) is already available to the calling agent. Always gate-checks and re-reads
+current state before any close or state-changing update.
+
+## Operational procedure
+
+### Common Sequences
+
+These are the realistic end-to-end asks — follow the named steps in order; don't stop partway and
+report success.
+
+**Submit a new change and drive it through to close (no approval required by this change's model):**
+1. Create — with the given fields.
+2. Check Gates — against the intended closed target state, before attempting to close.
+3. Close — (which itself re-reads the record and requires confirmation per that section).
+
+**Submit a new change that requires approval, then close once approved:**
+1. Create — with the given fields.
+2. Approve / Reject — submit the decision. If rejected, stop here and report REJECTED; do not attempt
+   Check Gates or Close on a rejected change.
+3. Check Gates — against the intended closed target state.
+4. Close.
+
+**Just update fields on an existing change (no state transition):**
+1. Update — directly against the known change. No gate check needed; Check Gates only applies to state
+   transitions, not field-only edits.
+
+**Just check whether a change is ready to close, without closing it:**
+1. Check Gates — report the result; stop here, do not proceed to Close.
+
+If a caller's ask doesn't match one of these shapes, use the individual capability sections directly and
+still confirm success at each step before proceeding to the next — never chain calls without checking
+the prior one actually returned a usable record.
+
+### Create
+
+Create a change request with the given fields, **plus `chg_model` and/or `type`** — the source strongly
+advises setting at least one (omitting both silently applies a release-dependent default).
+
+Confirm success: the response record includes a change `number` and `sys_id`. New records default to
+state "New" and approval "Not Yet Requested" unless overridden.
+
+### Update
+
+Update the given fields on the change record. Use for any non-close change (priority, description,
+assignment, implementation plan, etc.).
+
+### Check Gates (required before Close, and before any state-changing Update)
+
+Retrieve available next states and their transition conditions for the change record — the documented,
+authoritative way to know whether a transition is currently allowed. Do not infer readiness from other
+fields.
+
+- A target state is reachable if at least one of its listed transition paths shows the transition as
+  available — a state can have multiple alternate paths; check all of them.
+- If no path to the target state is available, report exactly which named conditions haven't passed.
+- Gate/condition detail isn't available for type-driven or legacy changes — if absent, report that
+  readiness can't be automatically confirmed rather than assuming all gates passed.
+
+### Close (requires Check Gates first, and requires confirmation)
+
+1. Check Gates against the intended target state; stop if no path shows it available.
+2. Re-read the current record (state, approval, active) immediately before closing — never close on
+   stale/assumed state.
+3. **Stop and confirm with the operator before proceeding** — this is the irreversible step in this
+   skill's scope.
+4. On confirmation, update the record's state to the target value with a close code and close notes
+   both set — a close without both is not considered complete.
+5. Re-read the record and confirm state/close fields took effect. If not, treat as a failed close,
+   report the actual state, and don't retry automatically.
+
+### Approve / Reject
+
+Submit the approval decision (approved or rejected) for the change record.
+
+- A comment is required when rejecting — submit no rejection without a reason.
+- A denied-authority error is a documented, specific failure mode distinct from a generic bad request —
+  see `endpoints.md`. Report it as an authorization issue, not a retryable request error.
+- **Reject is a confirmation point** — it has real process consequences (default behavior on reject is
+  to cancel all future tasks, unless the change overrides this) and should not be issued without
+  explicit instruction to reject specifically.
+
+## Patterns
+
+- **Gate checks are the only source of truth for readiness.** Never infer that a change is ready to
+  close from its state/approval fields alone — always run Check Gates and read its transition-condition
+  detail directly.
+- **Always re-read immediately before closing.** State can change between an earlier gate check and the
+  close call — the re-read in Close step 2 is not redundant with Check Gates.
+
+## Known limitations
+
+- Covers create, read, update/close, approve/reject, and gate-check — does not cover delete, CI
+  association, conflict-checking, scheduling, or change-task endpoints.
+- **Close is effectively irreversible through this skill** — this is why Close step 3 requires explicit
+  operator confirmation before proceeding. Field updates before close can be corrected with another
+  update; approve/reject/close are not reversed by this skill.
+- **Reject has real process consequences** (cancels future tasks by default) and is also a required
+  confirmation point, not just an approval-workflow action.
+
+## Tools
+
+| Operation | Description | Category |
+|---|---|---|
+| Create Change Request | Create a new change record | Change Records |
+| Update Change Request | Update fields on an existing change | Change Records |
+| Get Available States | Retrieve next-state transition conditions (gate check) | Change Records |
+| Approve / Reject Change | Submit an approval decision | Approval Workflow |
+| Close Change | Transition to a closed state with close code/notes | Change Records |
+
+## Verification checklist
+
+- [ ] Check Gates was run (and its transition-condition detail read, not just its top-level status)
+      before any Close or state-changing Update
+- [ ] The record was re-read immediately before Close, not relying on an earlier read's state
+- [ ] Close was only performed after explicit operator confirmation
+- [ ] A rejection included a comment with the reason, and was only issued on explicit instruction to
+      reject
+- [ ] Final report includes the change `number`/`sys_id` and pre/post state and approval values
