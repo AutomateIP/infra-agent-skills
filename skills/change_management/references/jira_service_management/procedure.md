@@ -47,7 +47,7 @@ and confirm success at each step before proceeding.
 
 Create a request against the target service desk and request type, with field values keyed by field
 ID (discoverable via a request-type-fields lookup — not detailed further here, see
-`endpoints.md`/`source-extract.md`). `raiseOnBehalfOf` and `requestParticipants` are both
+`endpoints.md`). `raiseOnBehalfOf` and `requestParticipants` are both
 permission-gated — neither is available to a caller with customer-only permission; confirm the calling
 credential's actual permission level before assuming either field will be accepted.
 

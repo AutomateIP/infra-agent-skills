@@ -9,8 +9,6 @@ an authenticated CLI/console session against the target switch with appropriate 
 exec-mode and configuration-mode commands, transfer a file to `/var/tmp` (FTP/HTTP or local copy), and
 detect switch/RE reachability across a reboot.
 
-See `junos-ex-series-source-extract.md` for the full quoted command reference.
-
 ## Single Routing Engine Procedure
 
 Applies to EX2200, EX2300, EX3200, EX3300, EX3400, EX4100, EX4200, EX4300, EX4500, EX4550, EX6200
@@ -49,10 +47,9 @@ Platform-specific variants:
 
 **Validation runs by default when the target is a different release** — `request system software add`
 validates the package against the current configuration automatically unless `no-validate` is passed
-(see `junos-ex-series-source-extract.md` for the full option reference: `validate`/`no-validate`,
-`no-copy`, `force`/`force-host`, `member`, `partition`, `delay-restart`, `unlink`,
-`validate-on-host`/`validate-on-routing-engine`). Don't add `no-validate` without a specific reason to
-skip it — it's the documented safety mechanism at this step.
+(other options include `no-copy`, `force`/`force-host`, `member`, `partition`, `delay-restart`,
+`unlink`, `validate-on-host`/`validate-on-routing-engine`). Don't add `no-validate` without a specific
+reason to skip it — it's the documented safety mechanism at this step.
 
 If installing without `reboot` appended and needing to back out before rebooting:
 ```

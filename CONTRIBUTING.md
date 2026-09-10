@@ -50,11 +50,12 @@ skills/<capability>/
     <vendor>/
       procedure.md
       endpoints.md
-      source-extract.md
 ```
 
 See the [README](README.md) for the full rationale behind this structure and the rule that keeps
-`SKILL.md` stable as vendors are added.
+`SKILL.md` stable as vendors are added. See [AGENTS.md](AGENTS.md) for the full authoring rules
+and review checklist every skill contribution must follow — read it before writing or reviewing
+any `SKILL.md` or `references/` content.
 
 ## Contributing Process
 

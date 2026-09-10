@@ -10,8 +10,7 @@ limitations). Assumes an authenticated CLI/console session against the target sw
 able to run exec-mode commands, transfer a file to flash (USB/FTP/SCP/HTTP), and detect switch
 reachability across a reload.
 
-See `eos-standard-upgrade-source-extract.md` for the full quoted command reference and the documentation
-artifact this file corrects (see Known limitations).
+See Known limitations for a documentation artifact this file corrects.
 
 ## Single-Supervisor Switch Procedure (5 steps)
 

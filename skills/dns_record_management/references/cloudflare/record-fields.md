@@ -1,8 +1,7 @@
 # Record Field Reference — Cloudflare DNS Record Object
 
 Full field breakdown for the record object accepted by `POST /zones/{zone_id}/dns_records`, drawn from
-the Cloudflare API reference (source 2 in `references/source-extract.md`) plus the dashboard-facing
-proxy-status, TTL, and record-attributes pages.
+the Cloudflare API reference plus the dashboard-facing proxy-status, TTL, and record-attributes pages.
 
 ## Core fields (all record types)
 

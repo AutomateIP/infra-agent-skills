@@ -1,8 +1,7 @@
 # Wireless Network Management — Platform Index
 
 One row per supported wireless-management platform. Each platform directory holds its own
-`procedure.md` (capability language, per the REST convention), `endpoints.md` (literal wiring), and
-`source-extract.md`.
+`procedure.md` (capability language, per the REST convention) and `endpoints.md` (literal wiring).
 
 | Platform | Directory | Scope | Notes |
 |---|---|---|---|
@@ -21,9 +20,8 @@ periodically; if a write endpoint is published later, this is the file to update
    see `endpoints.md` convention), following the shape of `meraki/procedure.md` (Operational
    procedure → Patterns → Known limitations → Tools → Verification checklist).
 2. Add `endpoints.md` with the literal wiring for every capability named in `procedure.md`.
-3. Add `source-extract.md` for the isolated procedural extract.
-4. Add one row to the table above. If the platform's public API doesn't support write operations for
+3. Add one row to the table above. If the platform's public API doesn't support write operations for
    the relevant capability, say so explicitly rather than silently building a thinner skill — that's a
    real, useful finding in itself (see Aruba).
-5. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
+4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
    contribution note.

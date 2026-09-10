@@ -1,8 +1,7 @@
 # CMDB / Asset Management — Platform Index
 
 One row per supported CMDB/asset-management platform. Each platform directory holds its own
-`procedure.md` (capability-language, per the REST convention), `endpoints.md` (literal wiring), and
-`source-extract.md`.
+`procedure.md` (capability-language, per the REST convention) and `endpoints.md` (literal wiring).
 
 | Platform | Directory | Scope | Notes |
 |---|---|---|---|
@@ -20,7 +19,6 @@ being managed, not by vendor name alone.
    see `endpoints.md` convention), following the shape of `servicenow/procedure.md` (Operational
    procedure → Patterns → Known limitations → Tools → Verification checklist).
 2. Add `endpoints.md` with the literal wiring for every capability named in `procedure.md`.
-3. Add `source-extract.md` for the isolated procedural extract.
-4. Add one row to the table above.
-5. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
+3. Add one row to the table above.
+4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
    contribution note.

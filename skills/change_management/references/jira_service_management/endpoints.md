@@ -4,7 +4,7 @@ Literal API calls behind each capability named in `procedure.md`. Base URL:
 `https://<site>.atlassian.net`. Auth: OAuth 2.0 (3LO) with the scopes noted per endpoint, or basic
 auth with an API token for server/data-center deployments. Sourced from Atlassian's own machine-
 readable OpenAPI spec (`https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json`),
-retrieved directly — see `source-extract.md` for retrieval notes.
+retrieved directly.
 
 ## Create a Customer Request
 

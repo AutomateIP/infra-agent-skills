@@ -31,7 +31,6 @@ skills/<capability>/
       procedure.md                # that vendor's full step-by-step — patterns, error handling,
                                    # tools, verification checklist
       endpoints.md                 # literal wire-level calls
-      source-extract.md            # isolated procedural extract from the vendor's own doc
 ```
 
 For a large permutation space (e.g. software upgrades, where one vendor spans several platform

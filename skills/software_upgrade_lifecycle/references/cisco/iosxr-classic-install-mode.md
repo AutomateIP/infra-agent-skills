@@ -10,9 +10,6 @@ to both the XR VM and System Admin VM, able to run exec-mode `install`/`show` co
 image/package repository (local disk, USB, or a remote server over HTTP/HTTPS/TFTP/FTP/SFTP via the
 management port or a data port).
 
-See `iosxr-classic-install-mode-source-extract.md` for the full quoted command reference and
-version-specific caveats.
-
 ## Operational procedure
 
 ### Step 0 — Pre-upgrade checks (do before staging anything)

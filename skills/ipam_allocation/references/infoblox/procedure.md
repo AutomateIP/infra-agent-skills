@@ -71,8 +71,7 @@ exclusions, resolved server-side into a real address as part of the same create 
 
 **Version note:** the exact field names used in the nested-function structure differ across WAPI
 versions — confirm which your target Grid Master's WAPI version actually expects rather than assuming
-one form works unmodified against every release; see `source-extract.md` for both verbatim forms in
-circulation.
+one form works unmodified against every release.
 
 Confirm success: the response's address field (or the containing object) reflects a real assigned
 address, not the function-call structure echoed back unresolved.

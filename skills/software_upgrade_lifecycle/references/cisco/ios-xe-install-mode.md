@@ -9,8 +9,6 @@ ROMMON recovery. Assumes an authenticated CLI/console session against the target
 enable/privileged exec access, able to run exec-mode commands, respond to interactive y/n prompts,
 transfer a file to local flash, and detect device reachability across a reload.
 
-See `ios-xe-install-mode-source-extract.md` for the full quoted command reference and scope boundary.
-
 ## Operational procedure
 
 ### Step 1 — Confirm Eligibility

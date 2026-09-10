@@ -27,18 +27,16 @@ vendor, genuinely different install architecture (IOS-XE's `install`/`packages.c
 `install add`/`activate`/`commit` against a per-VM repository). This validated the grouping rule as
 designed: the split is on platform-family+mode, not on vendor name alone. Cross-checking a second
 platform doc (ASR 9000) against the primary source (NCS 5500) before assuming a single file covers both
-is also the expected workflow — in this case they turned out identical (see
-`cisco/iosxr-classic-install-mode-source-extract.md`'s comparison finding), so one file covers both; a
+is also the expected workflow — in this case they turned out identical, so one file covers both; a
 future comparison finding a real difference would justify separate files instead.
 
 **Lesson learned from this addition — namespace companion files by platform-family+mode, not
 generically.** `references/<vendor>/` holds multiple platform-family files once a vendor has more than
-one (as Cisco now does), so a bare `source-extract.md` or `endpoints.md` in that directory silently
-collides between them — the first file written to that generic name gets clobbered by the second. Name
-every companion file after its procedure file's own basename instead: `<platform-family-and-mode>-
-source-extract.md`, `<platform-family-and-mode>-endpoints.md`. This applies from the *first* file added
-for a vendor, not just once a second one shows up — retrofitting the rename after a collision is how
-this was caught the hard way.
+one (as Cisco now does), so a bare `endpoints.md` in that directory silently collides between them —
+the first file written to that generic name gets clobbered by the second. Name every companion file
+after its procedure file's own basename instead: `<platform-family-and-mode>-endpoints.md`. This
+applies from the *first* file added for a vendor, not just once a second one shows up — retrofitting
+the rename after a collision is how this was caught the hard way.
 
 **Another documentation-hygiene lesson (found adding Arista):** the source's own Standard-upgrade
 section (§8.3.1.1) reused a heading and subsections verbatim from its SSU chapter ("Preparing the
@@ -46,8 +44,7 @@ Switch for SSU," complete with SSU-specific BGP-graceful-restart and MLAG `reloa
 publisher docs can themselves have copy-paste artifacts. Don't assume a source section's content
 belongs to the procedure it's nested under just because of where it appears; cross-check against the
 chapter's own stated scope (here, §8.1's explicit SSU-vs-Standard distinction) before carrying a
-subsection forward. Flagged and excluded in `arista/eos-standard-upgrade-source-extract.md` rather than
-silently reproduced.
+subsection forward. Flagged and excluded rather than reproduced.
 
 Expected growth shape as more vendors/platform-families are added (not yet built — illustrative):
 
@@ -90,11 +87,8 @@ returns incomplete/summarized-without-substance content; ask the user for a PDF 
 2. If the procedure is CLI-driven, keep literal commands inline in that file (payload, not a
    tool-selection key) — no separate endpoints file needed. If it's REST/API-driven, add
    `<platform-family-and-mode>-endpoints.md` alongside it with the literal wiring, per the usual
-   convention. Add `<platform-family-and-mode>-source-extract.md` for the isolated procedural extract,
-   the same way `cisco/ios-xe-install-mode-source-extract.md` and
-   `cisco/iosxr-classic-install-mode-source-extract.md` do — **never a bare `endpoints.md`/
-   `source-extract.md`** in a vendor directory that has (or might later have) more than one
-   platform-family file. See "Lesson learned" above.
+   convention — **never a bare `endpoints.md`** in a vendor directory that has (or might later
+   have) more than one platform-family file. See "Lesson learned" above.
 3. Add one row to the table above.
 4. Do NOT add vendor/platform-specific procedure content to the top-level `SKILL.md` — see that file's
    own contribution note. This is the rule most likely to be tempting to break here, precisely because

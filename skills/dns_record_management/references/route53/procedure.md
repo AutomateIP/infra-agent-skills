@@ -91,10 +91,10 @@ Errors on this call:
 
 ### 7. Respect documented limits
 
-Before submitting, if the batch is large, check against the documented caps (exact figures and citations
-in `source-extract.md` § "Documented Limits"): 10,000 records per hosted zone, 400 records per record
-set, 1,000 `ResourceRecord` elements per request (UPSERT counts each element twice), and 32,000 characters
-total across all `Value` elements per request (UPSERT counts each character twice). If a requested change
+Before submitting, if the batch is large, check against the documented caps: 10,000 records per hosted
+zone, 400 records per record set, 1,000 `ResourceRecord` elements per request (UPSERT counts each
+element twice), and 32,000 characters total across all `Value` elements per request (UPSERT counts
+each character twice). If a requested change
 would exceed one of these, report it to the operator rather than submitting a request that AWS will
 reject.
 
