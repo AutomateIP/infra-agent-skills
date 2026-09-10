@@ -106,6 +106,6 @@ Errors:
 | `HealthCheckId` | ResourceRecordSet | no | Optional Route 53 health check to associate. |
 | `Comment` | ChangeBatch | no | Free-text description. |
 
-Limits: see `references/source-extract.md` § "Documented Limits" for the exact 10,000-records-per-zone,
-400-records-per-set, 1,000-ResourceRecord-elements, and 32,000-character request caps (UPSERT counts
+Limits: 10,000 records per hosted zone, 400 records per record set, 1,000 `ResourceRecord` elements
+per request, and 32,000 characters total across all `Value` elements per request (UPSERT counts
 double against the latter two).

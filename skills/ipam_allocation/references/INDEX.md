@@ -1,7 +1,7 @@
 # IPAM Allocation — Platform Index
 
 One row per supported IPAM platform. Each platform directory holds its own `procedure.md` (the full
-step-by-step) plus wire-level `endpoints.md`/`source-extract.md` where applicable.
+step-by-step) plus wire-level `endpoints.md` where applicable.
 
 | Platform | Directory | Scope | Notes |
 |---|---|---|---|
@@ -29,7 +29,6 @@ a non-REST API.
 2. Add `endpoints.md` (REST platforms) or fold literal wire syntax inline (non-REST platforms, as
    `solarwinds/procedure.md` does) — whichever fits the platform's actual call mechanism; don't force a
    REST-shaped `endpoints.md` onto a non-REST API.
-3. Add `source-extract.md` for the isolated procedural extract.
-4. Add one row to the table above, and state the platform's call mechanism explicitly if it isn't REST.
-5. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
+3. Add one row to the table above, and state the platform's call mechanism explicitly if it isn't REST.
+4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
    contribution note.

@@ -10,8 +10,7 @@ account) is already available.
 
 Scope note: this covers the "Create DNS Records" procedure on Cloudflare's own how-to page; Edit and
 Delete are explicitly out of scope. Per-type field schemas for MX/SRV/CAA are drawn from Cloudflare's
-API reference ("DNS Records for a Zone" → Create); flagged facts from that path are in
-`source-extract.md`.
+API reference ("DNS Records for a Zone" → Create).
 
 ## Operational procedure
 

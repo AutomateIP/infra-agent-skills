@@ -52,9 +52,8 @@ exact error strings/codes for common failure modes (duplicate record, invalid `c
 
 **Authentication/authorization:** Cloudflare API token (Bearer) scoped with Zone-level DNS write access.
 Dashboard convention for this scope is commonly labeled "Zone → DNS → Edit" in the token-creation UI —
-this label was not verbatim-confirmed in this skill's retrieval (see `references/source-extract.md`);
-confirm against the target account's own "List permission groups" API response or token-creation screen
-if precision matters.
+this label was not independently confirmed; confirm against the target account's own "List permission
+groups" API response or token-creation screen if precision matters.
 
 ## Confirm Record Created
 

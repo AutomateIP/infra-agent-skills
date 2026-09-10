@@ -5,7 +5,7 @@ steps reference these by name; bind them to whatever ARM-authenticated REST clie
 available (see `requires_tool`/`assumed_tool` in `SKILL.md` frontmatter).
 
 Source is the Portal's own underlying resource — the Portal doc itself gives no literal API call; the
-REST shape below is the secondary source used to fill that gap (see `references/source-extract.md`).
+REST shape below is the secondary source used to fill that gap.
 
 ## Create or Update a Record Set
 
@@ -43,7 +43,7 @@ invented one (this is a genuine documented gap, not an extraction miss).
 ## Delete a Record Set
 
 Not shown in the fetched REST reference page (only Create-Or-Update was retrieved per this skill's
-scope — see `references/source-extract.md`). The Portal procedure's own delete flow (trash icon →
+scope). The Portal procedure's own delete flow (trash icon →
 confirm the name matches → Yes) is the authoritative sequence for this skill; if wiring to the REST
 API directly, the standard ARM DNS `RecordSets - Delete` operation (`DELETE` on the same path as
 above) is the documented counterpart per Azure's own REST API index, but its exact response codes were

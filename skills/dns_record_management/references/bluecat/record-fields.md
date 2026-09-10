@@ -13,7 +13,7 @@ uses) plus the Horizon UI guide's TTL notation.
 | `ttl` | No | Seconds, or shorthand `1s` / `1m` / `1h` / `1d` / `1w`. |
 | `comment` | No | Static zones only — dynamic-zone records cannot carry a comment. |
 | `enabled` | No | Boolean; record is enabled by default. |
-| `aging` | No | AD-integrated dynamic zones only. Hours since 1601-01-01 00:00 UTC. A non-zero value marks the record dynamic (inferred from a secondary source, not a directly fetched primary page — flagged in source-extract.md). |
+| `aging` | No | AD-integrated dynamic zones only. Hours since 1601-01-01 00:00 UTC. A non-zero value marks the record dynamic (inferred from a secondary source, not a directly fetched primary page — not independently confirmed). |
 
 ## Supported record types (35 total, per the Horizon "DNS resource records" page)
 

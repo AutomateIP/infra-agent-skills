@@ -8,8 +8,6 @@ comparison table below). Assumes an authenticated CLI/console session against th
 sudo/NVUE access, able to run `nv` (NVUE) and Linux CLI commands, transfer/fetch an image file over the
 network or from local storage, and detect switch reachability across a reboot.
 
-See `cumulus-linux-upgrade-source-extract.md` for the full quoted command reference.
-
 ## Method comparison (confirm which applies before proceeding)
 
 | Aspect | Optimized Image | Package Upgrade | ONIE Image |

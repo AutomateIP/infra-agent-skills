@@ -10,7 +10,7 @@ Scope note: covers creating one DNS resource record via BlueCat Horizon's underl
 API. The Horizon User Guide's own "Creating DNS records" page documents the web UI flow, not a REST
 schema — the API field names and the record-object schema here are drawn from DDI Orchestrator's own
 REST API guide and Ansible module reference, which document the same underlying `dnsRecord` object.
-Every fact taken from that secondary path is flagged in `source-extract.md`; if you have access to the
+Facts taken from that secondary path are noted as such throughout; if you have access to the
 target instance's own live API doc (`/mmws/api/doc`, or Horizon's Administration → API documentation),
 verify field names and the exact response schema against it before relying on this unmodified in
 production.

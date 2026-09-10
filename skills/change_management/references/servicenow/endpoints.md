@@ -1,8 +1,8 @@
 # Endpoint Mapping — ServiceNow Change Management Lifecycle
 
 Literal `sn_chg_rest` operations behind each capability named in `SKILL.md`. Use this to bind the skill
-to a concrete tool (e.g. a FlowAI-discovered adapter tool, a direct REST call). Quoted from
-`references/source-extract.md` / the source API reference.
+to a concrete tool (e.g. a FlowAI-discovered adapter tool, a direct REST call). Sourced from the
+source API reference.
 
 | Capability (SKILL.md) | Operation | Body / notes |
 |---|---|---|

@@ -3,8 +3,8 @@
 Field names and types are quoted from the Azure DNS REST API reference (api-version 2018-05-01),
 `RecordSet.properties`. The Azure Portal's "Add a record set" panel renders these same fields under
 UI labels the source docs only show for the A-record example (Name, Type, TTL, TTL unit, IP address);
-other types' Portal field labels are inferred to correspond 1:1 to the field names below — flagged in
-`source-extract.md`.
+other types' Portal field labels are inferred to correspond 1:1 to the field names below — this
+mapping was not independently confirmed for every type.
 
 Common to every record set, regardless of type:
 - `properties.TTL` (integer, int64, required) — time-to-live in seconds. Portal: **TTL** + **TTL

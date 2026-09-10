@@ -1,8 +1,8 @@
 # Endpoint Mapping — NetBox IPAM Prefix Allocation
 
 Literal NetBox REST API operations behind each capability named in `SKILL.md`. Bind these to a concrete
-tool (e.g. a FlowAI-discovered adapter tool, a direct REST call). Quoted from NetBox's own OpenAPI
-schema (`/api/schema/`, v4.6.7) — see `references/source-extract.md` for full field detail.
+tool (e.g. a FlowAI-discovered adapter tool, a direct REST call). Sourced from NetBox's own OpenAPI
+schema (`/api/schema/`, v4.6.7).
 
 | Capability (SKILL.md) | Operation | Body / notes |
 |---|---|---|
@@ -23,5 +23,5 @@ legacy). `Content-Type: application/json` on all writes.
 `available-ips` and `available-prefixes` POST return **HTTP 400** (not 404/409) when the pool can't
 satisfy the request, with a body message matching: *"An insufficient number of IP addresses are
 available within `<prefix>` (`<N>` requested, `<M>` available)."* Source: NetBox community/issue-tracker
-corroboration, not the OpenAPI schema itself (schemas don't carry response-body prose) — flagged as
-secondary-sourced in `references/source-extract.md`.
+corroboration, not the OpenAPI schema itself (schemas don't carry response-body prose) — this is a
+secondary-sourced fact, not independently confirmed against the schema.

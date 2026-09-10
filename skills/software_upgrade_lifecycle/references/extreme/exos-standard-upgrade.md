@@ -9,8 +9,6 @@ with EXEC access, able to run exec-mode commands, reach an image server (TFTP/HT
 USB 2.0 device) from the switch's own network configuration, and detect switch reachability across a
 reboot.
 
-See `exos-standard-upgrade-source-extract.md` for the full quoted command reference.
-
 ## Operational procedure
 
 ### Step 1 — Back up the running configuration
@@ -73,9 +71,8 @@ download image [hostname|ipaddress] <filename> <partition> {install {reboot}}
 ```
 (Full documented syntax: `download [ url url { vr vrname } | image [ active | inactive ]
 [[ hostname | ipaddress ] filename {{ vr } vrname } { block-size block_size }] { partition }
-{ install { reboot }} }` — see `exos-standard-upgrade-source-extract.md` for the complete option
-grammar; the two supported top-level forms since EXOS 16.1 are `download url <filename>` (multiple
-files at once, over TFTP/HTTP/anonymous FTP) and `download image <filename>` (a single `.xos`/`.xmod`
+{ install { reboot }} }`; the two supported top-level forms since EXOS 16.1 are `download url <filename>`
+(multiple files at once, over TFTP/HTTP/anonymous FTP) and `download image <filename>` (a single `.xos`/`.xmod`
 file over TFTP).)
 
 Example interactive sequence:
