@@ -1,0 +1,7 @@
+# source-extract.md files are intentionally kept local-only, never committed.
+# They are the raw/verbatim research trail behind a skill's procedure.md — see AGENTS.md rule 1
+# and VERBATIM-CONTENT-REMEDIATION.md (untracked, in the skills_maintenance workspace) for why.
+**/source-extract.md
+**/*-source-extract.md
+
+.DS_Store
