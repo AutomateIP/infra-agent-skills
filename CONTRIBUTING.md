@@ -40,6 +40,25 @@ be merged.** See [CLA.md](CLA.md).
 When you submit your first pull request, you will be prompted to sign the CLA. Please complete
 this process before your contribution can be reviewed.
 
+## Signed Commits
+
+Signing your commits is **strongly recommended**. A signed commit verifies who authored it and
+earns the "Verified" badge on GitHub, which protects the project against impersonated commits. It
+is recommended, not required by branch protection — an unsigned commit never blocks a
+contribution.
+
+SSH signing is the simplest path if you already use an SSH key with GitHub:
+
+```bash
+git config --global gpg.format ssh
+git config --global user.signingkey ~/.ssh/id_ed25519.pub
+git config --global commit.gpgsign true
+```
+
+Then add the same key as a **signing key** in your GitHub account settings — this is separate from
+registering it as an authentication key. GPG signing is also supported if you prefer it. After
+setup, new commits show as Verified once the key is registered.
+
 ## Repository Structure
 
 ```
