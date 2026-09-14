@@ -54,8 +54,9 @@ implements this shape concretely.
 - Currently covers NetBox, Infoblox NIOS (allocation only, not DNS records — see
   `dns_record_management` for those), and SolarWinds IPAM. A platform not listed in
   `references/INDEX.md` needs a new reference file before this skill can be used for it.
-- Does not cover DHCP scope management, network discovery, or DNS record creation on any platform —
-  those are adjacent capabilities, not address-space allocation.
+- Does not cover DHCP scope/lease configuration (see `dhcp_scope_management`), network discovery, or
+  DNS record creation on any platform — those are adjacent capabilities, not address-space
+  allocation.
 
 ## Contributing to this skill
 
