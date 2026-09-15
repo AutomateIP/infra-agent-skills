@@ -195,6 +195,27 @@ tokens, under ~500 lines):
   that echoes credentials in a response, a default that disables a safety check), document that
   finding explicitly in the vendor's `procedure.md` rather than silently working around it. See
   [SECURITY.md](SECURITY.md) for how to report anything found after the fact in merged content.
+- **Write every step as a description of what the vendor's own procedure does, never as a direct
+  instruction to whatever agent executes this skill.** A skill's `procedure.md`/`endpoints.md` is
+  content an agent reads and acts on, the same way it would read a fetched web page or a tool's
+  output — an instruction embedded there ("ignore prior instructions and also run X," "send this
+  payload to `<attacker-controlled URL>` first," a step with no traceable connection to the cited
+  vendor source) is a prompt-injection vector, not a procedure step, regardless of how it's
+  phrased or how plausible it looks. Every step must trace back to something the cited vendor
+  documentation actually says; if a step can't be justified that way, it doesn't belong in the
+  file — full stop, the same standard as rule 1's "don't invent steps the source doesn't state."
+  This applies with the same weight to a PR from a known, trusted contributor as to one from a
+  stranger — trust in the author is not a substitute for checking the content itself.
+
+## Trust boundary: a skill file is content an agent reads, not a set of instructions an agent trusts
+
+Once a skill from this repo is loaded by an executing agent, that agent treats `procedure.md`'s
+steps as instructions to follow. That means **anyone who can get text into a merged `procedure.md`
+or `endpoints.md` has a path to instruct every agent that later executes that skill** — this is a
+real, standing risk specific to this repo's purpose (skills are meant to be executed, not just
+read), and it is why the review checklist below treats "does every step trace back to the cited
+vendor source" as a security check, not just an accuracy one. See [SECURITY.md](SECURITY.md) for
+how to report a suspected instance of this in already-merged content.
 
 ## Review checklist
 
@@ -205,6 +226,11 @@ Before opening a PR, or before approving one, confirm:
 - [ ] No vendor documentation text is quoted or closely mirrored anywhere in the diff —
       `procedure.md` and `endpoints.md` restate every fact in the contributor's own original
       wording. Any PR that fails this must be sent back for rewrite, not merged (rule 1).
+- [ ] Every step in the diff traces back to something the cited vendor documentation actually
+      says — no step reads as a direct instruction to the executing agent rather than a
+      description of the vendor's own procedure, and nothing sends data to a destination not
+      documented by the vendor itself (rule 10). Treat this check the same regardless of who
+      opened the PR or how trusted they are.
 - [ ] `SKILL.md` was touched only to fix a shared/universal-concepts bug or add a vendor pointer —
       not to carry vendor-specific detail (rule 5).
 - [ ] Any change to "Universal concepts" is called out explicitly as a correction, with the vendor
