@@ -1,9 +1,16 @@
-# Agent Skills
+# 🧰 Agent Skills
 
 Open source library of automation skills for AI agents working on network and infrastructure
 operations.
 
-## What This Is
+**[What This Is](#what-this-is)** ·
+**[How It's Organized](#how-its-organized)** ·
+**[Current Skills](#current-skills)** ·
+**[Installation](#installation)** ·
+**[Contributing](#contributing)** ·
+**[License](#license)**
+
+## 📖 What This Is
 
 Each skill teaches an agent how to carry out one operation — provisioning a DNS record, running a
 change request to close, upgrading device software — reliably and consistently, regardless of which
@@ -11,7 +18,7 @@ vendor platform is behind it. The goal is a single, trustworthy place for an age
 building one) to find "how do we do X here" and get an answer, instead of every agent re-deriving it
 from scratch or from a vendor's raw API docs.
 
-## How It's Organized
+## 🗂️ How It's Organized
 
 Skills are organized by **capability**, not by vendor. A skill is one operation — DNS record
 management, software upgrade lifecycle, change management, and so on — with every vendor's
@@ -44,7 +51,7 @@ path, a whole new procedure — goes in that vendor's own `references/<vendor>/`
 `SKILL.md` small and stable no matter how many vendors accumulate, and keeps a PR that only touches
 one vendor's behavior from ever touching the shared file.
 
-## Current Skills
+## ✅ Current Skills
 
 | Skill | Vendors covered |
 |---|---|
@@ -57,25 +64,58 @@ one vendor's behavior from ever touching the shared file.
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
-## Using a Skill
+## 🔧 Installation
 
-These skills are framework-agnostic — plain markdown procedures meant to be read by any agent or
-tool capable of loading a directory of instructions, not tied to a specific vendor's agent runtime.
-Each `skills/<capability>/SKILL.md` is a self-contained router: point your agent's skill-loading
-mechanism at a `skills/<capability>/` directory (or vendor it into your own project) to make that
-capability available. If your framework has its own skills convention (for example, Claude Code's
-`.claude/skills/<name>/SKILL.md` + `references/` layout), this repo's `skills/<capability>/`
-directories already follow that same `SKILL.md`-plus-`references/` shape and can be dropped in
-directly.
+These skills are **framework-agnostic** — plain markdown procedures, not tied to any vendor's agent
+runtime. There's nothing to compile or `pip install`; "installing" a skill means putting its
+directory somewhere your agent framework looks for skills. Every framework does that lookup a
+little differently, so the steps below are the same three-step shape in general form, then worked
+through for Claude Code as one concrete example.
 
-## Contributing
+### General steps (any framework)
+
+1. **Clone or vendor this repo** wherever your project keeps third-party content:
+   ```bash
+   git clone https://github.com/itential/agent-skills.git
+   ```
+2. **Pick the capability directory you need** — each one is fully self-contained under
+   `skills/<capability>/` (its own `SKILL.md` + `references/`), so you only need to bring in the
+   capabilities you actually use, not the whole repo.
+3. **Point your framework's skill-loading mechanism at that directory.** If your framework expects
+   skills in its own location (a `skills/` folder, a config-declared path, etc.), copy or symlink
+   `skills/<capability>/` there — its internal `SKILL.md` + `references/` shape travels as-is,
+   nothing needs restructuring.
+
+### Example: Claude Code
+
+Claude Code looks for skills under `.claude/skills/<name>/SKILL.md` — personal (`~/.claude/skills/`)
+or project-scoped (`<project>/.claude/skills/`). A symlink keeps this repo as the source of truth,
+so pulling updates here doesn't require re-copying anything:
+
+```bash
+# From your project root, after cloning agent-skills alongside it
+mkdir -p .claude/skills
+ln -s ../../agent-skills/skills/dns_record_management .claude/skills/dns_record_management
+```
+
+Repeat the `ln -s` line per capability you want available. Claude Code picks up the new skill the
+next time it scans `.claude/skills/` (a fresh session, or `/skills` to check what's loaded).
+
+### Other frameworks
+
+Any framework that can read a `SKILL.md` + `references/` directory tree works the same way — adjust
+step 3's destination path to wherever that framework looks. If your framework has no directory
+convention of its own, `skills/<capability>/SKILL.md`'s content is plain markdown and can be pasted
+directly into whatever prompt/context-loading mechanism you use.
+
+## 🤝 Contributing
 
 New skills and new vendor coverage are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how this
 repo is organized and the process for submitting changes. This project is governed by our
 [Code of Conduct](CODE_OF_CONDUCT.md); report security issues per [SECURITY.md](SECURITY.md).
 Contributions require agreement to the [CLA](CLA.md).
 
-## License
+## 📄 License
 
 <!-- PLACEHOLDER — license not yet decided; repo is private until this is settled. -->
 Not yet finalized — see [LICENSE.md](LICENSE.md).
