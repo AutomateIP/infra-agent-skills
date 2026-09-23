@@ -1,6 +1,6 @@
 ---
 name: interface_link_troubleshooting
-description: Diagnose physical/logical interface and link problems (interface down, flapping, high error/discard counters, duplex/speed mismatch, no link light) by reading interface state and counters on a supported platform, and mapping observed state to the platform's own documented likely causes. Use when an agent needs to investigate why a link isn't behaving as expected — not for configuring interface settings from scratch (that is a create/update operation with a different shape; this skill is read-only diagnosis). Assumes an authenticated CLI/API session against the target device is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Diagnose physical/logical interface and link problems (interface down, flapping, high error/discard counters, duplex/speed mismatch, no link light) by reading interface state and counters on a supported platform, and mapping observed state to the platform's own documented likely causes — currently Cisco IOS-XE, Juniper Junos, and Arista EOS (symptom coverage varies by vendor; see references/INDEX.md). Use when an agent needs to investigate why a link isn't behaving as expected — not for configuring interface settings from scratch (that is a create/update operation with a different shape; this skill is read-only diagnosis). Assumes an authenticated CLI/API session against the target device is already available; this skill does not provision or authenticate it.
 argument-hint: "[platform] [symptom: interface_down|flapping|high_errors|duplex_mismatch|no_link] [interface identifier]"
 ---
 
@@ -33,11 +33,31 @@ action needs its own confirmation gate exactly like any CRUD skill's destructive
 
 ## Universal concepts (shared interface-state vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Unlike BGP's RFC 4271 state machine, there is no single
-wire-level standard grounding interface/link state the way there is for DNS or BGP — every platform's
-counters and state names are its own; say so plainly per `AGENTS.md` rule 4 rather than implying a
-standardization that doesn't exist.)*
+Confirmed against the three platforms currently listed in `references/INDEX.md` (Cisco IOS-XE,
+Juniper Junos, Arista EOS) as of the research pass that added them — re-check every claim below
+against any newly added vendor before assuming it still holds (`AGENTS.md` rule 4):
+
+- **There is no single wire-level standard grounding interface/link state the way RFC 4271 grounds
+  BGP session state, or RFC 1035/2136/1123 ground DNS.** Every platform researched so far defines its
+  own state names, its own error-counter field names, and its own documented likely-cause mappings —
+  do not assume a counter name, a status string, or a documented cause from one vendor's file applies
+  to another's; each vendor's `procedure.md` says explicitly where it could not confirm something
+  rather than borrowing another vendor's confirmed behavior.
+- **Administratively disabled vs. operationally down is a distinction every platform researched so
+  far draws in some form** — an interface an operator has explicitly disabled in configuration is a
+  different condition, needing a different response, than one that is enabled but not passing link
+  for some other reason. The exact state string and command differ per platform; see each vendor's
+  `procedure.md`.
+- **Every platform researched so far documents a mechanism, or at least a display artifact, in which
+  the interface's reported state does not fully explain why it's in that state** without a further
+  check — Cisco's err-disabled state names a specific detected cause that must be read separately
+  (`show errdisable recovery`), and Junos's damping feature can make an interface report down without
+  its state display distinguishing "suppressed" from "actually down for a new reason." Arista's
+  Dynamic Link Flap Damping is confirmed to exist but its detail wasn't retrieved this pass, so it is
+  not yet confirmed to share this same caveat — don't assume it does until checked.
+- Beyond these, do not assume any specific error-counter name (CRC, FCS, alignment, symbol, etc.),
+  duplex/speed auto-negotiation display convention, or documented root-cause list is shared across
+  vendors — each is confirmed or explicitly flagged as unconfirmed in that vendor's own file.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -59,8 +79,9 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Currently covers Cisco IOS-XE, Juniper Junos, and Arista EOS — see `references/INDEX.md` for
+  exact symptom-category coverage per vendor (deliberately partial for some). A platform not
+  listed there needs a new reference file before this skill can be used for it.
 - Read-only diagnosis only. Does not configure, remediate, or reset anything — a caller who needs to
   act on a diagnosis needs a separate configuration-change capability, which may not exist yet in this
   repository.

@@ -1,6 +1,6 @@
 ---
 name: load_balancing
-description: Create, read, update, and delete load-balancer virtual server (VIP) and pool/pool-member objects on a supported load-balancing platform. A VIP configuration often references a certificate by identifier for TLS termination — provisioning that certificate is certificate_management's job, not this skill's; this skill only consumes the reference. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, and delete load-balancer virtual server (VIP) and pool/pool-member objects on a supported load-balancing platform — currently F5 BIG-IP LTM (iControl REST), Citrix ADC/NetScaler (NITRO REST), and HAProxy (config file + Runtime API). A VIP configuration often references a certificate by identifier for TLS termination — provisioning that certificate is certificate_management's job, not this skill's; this skill only consumes the reference. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it.
 argument-hint: "[platform] [action: create_vip|read_vip|update_vip|delete_vip|add_pool_member|remove_pool_member] [VIP/pool identifier, fields]"
 ---
 
@@ -19,9 +19,28 @@ platform the caller is targeting, following that platform's own documented proce
 
 ## Universal concepts (shared load-balancing vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before a
-vendor's real behavior has been checked against them.)*
+There is no wire-level standard grounding this capability (unlike, say, DNS) — the claims below are
+verified true across F5 BIG-IP LTM, Citrix ADC (NetScaler), and HAProxy specifically, the three
+platforms currently listed in `references/INDEX.md`. Treat them as the current common ground, not a
+guarantee that every future vendor added here will match:
+
+- **A VIP is its own object, identified by an address+port pair, separate from the pool/backend of
+  members it directs traffic to.** All three platforms model the listening side (F5 `ltm virtual`'s
+  `destination`; Citrix `lbvserver`'s `ipv46`+`port`; HAProxy's `frontend`/`bind`) as a distinct
+  object from the member side (F5 `ltm pool`; Citrix `service`; HAProxy `backend`/`server`).
+- **The VIP references its pool/backend by name/identifier — it does not embed member definitions
+  directly.** On all three platforms, wiring a VIP to its members is either a field reference (F5's
+  `pool` field on the virtual server, HAProxy's `default_backend`) or an explicit separate binding
+  call (Citrix's `lbvserver_service_binding`) — never a single combined create.
+- **A pool/backend member's identity is its address+port pair.** True on all three, though the exact
+  field name and whether it's expressed as the member's own resource name (F5 convention, Citrix
+  `service.ip`) or inline in a config line (HAProxy `server <name> <address>:<port>`) differs — see
+  each platform's own `procedure.md`.
+- **Every platform distinguishes disabling/draining a member from removing it**, with more than one
+  documented flavor of "disabled" in each case (F5's `session` vs. `state`; Citrix's graceful vs.
+  non-graceful disable; HAProxy's maintenance/drain/health-down). Do not normalize these into one
+  generic "disabled" status — report the specific mechanism actually used, per that platform's own
+  procedure.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -39,8 +58,9 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Currently covers F5 BIG-IP LTM, Citrix ADC/NetScaler, and HAProxy — see `references/INDEX.md`
+  for exact scope per vendor and known gaps. A platform not listed there needs a new reference
+  file before this skill can be used for it.
 - Does not cover certificate issuance/renewal, even where a VIP configuration references a
   certificate by identifier — see `certificate_management` for that.
 
