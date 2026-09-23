@@ -1,6 +1,6 @@
 ---
 name: certificate_management
-description: Issue, renew, read, and revoke TLS/SSL certificates on a supported certificate-management platform or protocol (a public/private CA, an ACME-based issuer, or a certificate-management API). Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load_balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. No vendor/protocol coverage yet — see references/INDEX.md.
+description: Issue, renew, read, and revoke TLS/SSL certificates on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, and AWS Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load_balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
 argument-hint: "[platform] [action: issue|renew|read|revoke] [certificate identifier/CSR, fields]"
 ---
 
@@ -20,9 +20,30 @@ documented procedure exactly.
 
 ## Universal concepts (shared certificate-management vocabulary, not a wire standard)
 
-*(To be filled in as vendors/protocols are added — see `AGENTS.md` rule 4: only claims verified true
-across every vendor actually listed belong here. Do not pre-populate this section with assumptions
-before a vendor's real behavior has been checked against them.)*
+No wire-level standard grounds every platform in this category the way, say, RFC 1035/2136 grounds
+DNS — the ACME protocol (RFC 8555) is itself a standard, but Vault PKI and AWS ACM are each a
+vendor-specific API with no shared protocol underneath them. Treat the claims below as verified true
+across the three platforms/protocols currently listed in `references/INDEX.md`, and re-check every one
+of them against a new platform's actual behavior before assuming it still holds (see `AGENTS.md` rule
+4) — several plausible-sounding claims did NOT survive checking all three and are deliberately left
+out below (see each platform's own `procedure.md` "Patterns"/"Known limitations" for specifics):
+
+- **Revocation is treated as permanent by every platform checked so far — none of the three documents
+  an "unrevoke" operation.** A revoked certificate stays revoked; the only remedy observed anywhere in
+  this category is issuing a replacement certificate, not reversing the revocation itself. This is why
+  every platform's procedure gates revocation on explicit operator confirmation.
+- **"Renewal" is not one consistent mechanism across platforms — confirm which pattern a given
+  platform actually uses before assuming behavior.** The ACME protocol and Vault's PKI engine have no
+  dedicated renewal call at all (renewing is just issuing again); AWS ACM has both an automatic
+  managed-renewal mechanism and a separate explicit `RenewCertificate` action with its own narrower
+  eligibility rules. Do not assume a "renew" step exists as a distinct wire operation, or that a
+  certificate's identifier is preserved across renewal, until that platform's own `procedure.md`
+  confirms it either way.
+- **Where a platform generates the private key on the caller's behalf, capturing it at issuance time
+  is a one-time opportunity, not something guaranteed retrievable later** — confirmed explicitly for
+  Vault PKI's issue call; check this against any future platform that offers server-side key
+  generation rather than assuming AWS ACM's fully-managed-key model (where the caller never handles
+  the private key at all) is how every platform works.
 
 See `references/INDEX.md` for which platforms/protocols have a procedure, and each platform file for
 how it implements this shape concretely.
@@ -40,8 +61,9 @@ how it implements this shape concretely.
 
 ## Known limitations
 
-- No vendor/protocol coverage yet — see `references/INDEX.md`. A platform not listed there needs a
-  new reference file before this skill can be used for it.
+- Currently covers the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, and
+  AWS Certificate Manager — see `references/INDEX.md`. A platform not listed there needs a new
+  reference file before this skill can be used for it.
 - Does not cover installing/binding an issued certificate to a consuming application, device, or load
   balancer — that belongs to the consuming system's own skill.
 

@@ -43,15 +43,43 @@ scope creep into unguarded remediation.
 
 ## Universal concepts (shared BGP vocabulary, genuinely grounded — RFC 4271)
 
-*(To be filled in as vendors are added. Unlike the CRUD-shaped skills' "Universal concepts," this
-section can lean on RFC 4271's actual state-machine vocabulary — Idle/Connect/Active/OpenSent/
-OpenConfirm/Established — as a real wire-level standard, the way DNS leans on RFC 1035. Still verify
-every claim against each vendor actually listed before asserting it as universal — a vendor's CLI/API
-terminology for the same RFC state can differ, and that gap itself is worth documenting, not papered
-over.)*
+The BGP session state machine's six named states — Idle, Connect, Active, OpenSent, OpenConfirm,
+Established — come from RFC 4271 and are confirmed, as of this pass, to be the state names each
+vendor's own CLI actually reports verbatim: Juniper Junos's `show bgp neighbor` output uses these
+exact six words for its State/Last state fields (verified against Juniper's own command-reference
+docs), and both Cisco IOS-XE and FRRouting are consistent with this same vocabulary in the sources
+consulted for this pass, though neither of those two vendor sources gave as complete a field-by-field
+confirmation as Juniper's did — see each vendor's own `procedure.md` for exactly what was and wasn't
+independently verified. Only Established has a consistent, universally-observed second meaning
+across all three vendors: once a session reaches Established, the same output field that showed the
+state name is commonly repurposed to show a route/prefix count instead (confirmed for both Cisco
+IOS-XE's summary-table state/PfxRcd column and Juniper's `show bgp summary` State field) — a numeric
+value in that field position is itself evidence the session is up, not evidence of anything about the
+state machine itself.
+
+**Not universal — do not assume across vendors:**
+- The BGP best-path/route-selection tie-break order is NOT one universal algorithm, even though
+  every vendor examined so far implements *some* ordered list of the same broad concepts (weight,
+  local preference, AS-path length, origin, MED, eBGP-vs-iBGP, IGP metric, router ID). Cisco IOS-XE
+  and FRRouting's own documented orders differ in real, material ways — FRRouting's documented order
+  inserts an administrative-distance check before weight (a step Cisco's documented order doesn't
+  have at all) and a "prefer the already-selected eBGP path" stability tiebreaker that Cisco's
+  documented order also doesn't have. Treat the tie-break order as vendor-specific and always consult
+  that vendor's own `procedure.md` rather than assuming one vendor's order generalizes.
+- Junos's own active-route-selection tie-break order has not yet been independently verified at all
+  (see `references/juniper-junos/procedure.md`'s explicit-unknowns section) — it is not safe to
+  assume it matches either Cisco's or FRR's documented order just because the underlying concepts
+  are similar.
+- There is no confirmed-universal set of session-establishment root causes (AS mismatch, TCP/179
+  reachability, authentication mismatch, hold-time mismatch) across these three vendors' own
+  documentation as consulted in this pass — each vendor file states plainly which specific causes
+  its own consulted source actually documents, and none of the three sources consulted gave a
+  complete list covering all of these common real-world causes. Don't treat a cause documented for
+  one vendor as automatically applicable to another without that vendor's own source confirming it.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
-implements this shape concretely.
+implements this shape concretely, including exactly which of the above each vendor's own consulted
+sources did and didn't confirm.
 
 ## Procedure
 

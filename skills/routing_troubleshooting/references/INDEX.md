@@ -7,7 +7,9 @@ this repo" before authoring a new vendor file here.
 
 | Vendor / Platform | Directory | Symptoms covered | Notes |
 |---|---|---|---|
-| _(none yet)_ | | | |
+| Cisco IOS-XE | `cisco-iosxe/` | session_down, unexpected_best_path | Does not yet cover session_flapping or route_missing — the sources reached in this pass (a Cisco troubleshooting tech note and Cisco's best-path-selection doc) didn't have enough independently-verified detail for those two; see the file's own "Explicit unknowns" section. The IOS-XE command-reference page for `show ip bgp summary`'s full field dictionary could not be reached this pass either. |
+| Juniper Junos | `juniper-junos/` | session_down, session_flapping | Does not yet cover route_missing or unexpected_best_path — Junos's own active-route-selection/tie-break and "hidden route" documentation pages could not be reached this pass (repeated 404s on guessed URLs); do not substitute another vendor's best-path order for Junos's own, since it is documented as its own process. Confirms the RFC 4271 session-state names are used as-is (Idle/Connect/Active/OpenSent/OpenConfirm/Established) with no naming divergence found in the two command-reference pages consulted. |
+| FRRouting | `frrouting/` | session_down, route_missing, unexpected_best_path | Does not yet cover session_flapping as its own entry point — the consulted doc's flap-related content (dampening, MED oscillation) is scattered under other topics rather than a dedicated flapping narrative. Sourced from FRR's "latest" docs branch, not pinned to one release — version-sensitive defaults (`bgp ebgp-requires-policy`, `bgp enforce-first-as`, `bgp network import-check`) should be reconfirmed against the caller's actual installed version. FRR's own best-path order diverges from Cisco's by inserting an admin-distance check first (step 0) and an "already-selected external path" stability tiebreaker (step 10) that Cisco's documented order doesn't have — see SKILL.md's "Universal concepts" note on this. |
 
 ## Adding a new vendor
 

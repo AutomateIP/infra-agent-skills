@@ -1,6 +1,6 @@
 ---
 name: dns_zone_management
-description: Create, read, update, and delete a DNS zone — including its SOA/NS records and subdomain delegation — on a supported DNS platform. Distinct from dns_record_management, which manages individual records inside a zone and assumes the zone already exists; this skill is the zone-level lifecycle those record operations depend on. Assumes an authenticated API/WAPI client for the target platform is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, and delete a DNS zone — including its SOA/NS configuration and subdomain delegation, where the platform documents them — on AWS Route 53, Cloudflare, or PowerDNS Authoritative Server. Distinct from dns_record_management, which manages individual records inside a zone and assumes the zone already exists; this skill is the zone-level lifecycle those record operations depend on. Assumes an authenticated API client for the target platform (Route 53 API, Cloudflare API Token, or PowerDNS X-API-Key) is already available; this skill does not provision or authenticate it. See references/INDEX.md for the current vendor list.
 argument-hint: "[platform] [action: create_zone|read_zone|update_zone|delete_zone|delegate_subdomain] [zone name, fields]"
 ---
 
@@ -18,17 +18,33 @@ exactly.
   `dns_record_management` for that. This skill's job ends where a zone exists and is correctly
   configured; record-level content inside it is the other skill's concern.
 
-## Universal concepts (shared DNS zone vocabulary — RFC 1035/1996/2136)
+## Universal concepts (verified across the vendors actually listed below)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before a
-vendor's real behavior has been checked against them. Note that `dns_record_management` already
-grounds its own universal concepts in RFC 1035/2136/1123 — zone-level concerns like SOA serial
-semantics and NS delegation draw on the same RFC family but are a distinct set of claims to verify,
-not an inherited given.)*
+This skill has no single wire-level standard grounding zone lifecycle the way `dns_record_management`
+can cite RFC 1035/2136/1123 for individual record semantics — zone creation, deletion, and SOA/NS
+handling are managed very differently by each platform below, and only the following has actually been
+verified true across all three currently listed:
+
+- **Creating a zone does not immediately make it authoritative for the domain.** Every platform below
+  requires a separate, external step (an NS delegation change at a registrar or a parent zone) before
+  the new zone actually serves traffic for that name — a successful create call is not itself "the
+  domain now resolves via this zone."
+- **Zone deletion is treated as destructive and effectively irreversible in this skill's own
+  procedures**, even though the vendors differ on whether they document a hard precondition for it
+  (Route 53 explicitly requires the zone hold only its default records first and states deletion can't
+  be undone; Cloudflare's and PowerDNS's documentation didn't surface an equivalent explicit
+  precondition or an explicit "can't be undone" statement during this research) — every platform
+  procedure below still gates deletion on operator confirmation regardless, since the absence of a
+  documented safeguard on some platforms is a reason for more caution, not less.
+- **SOA/NS auto-generation on zone creation is a real behavior on some, not all, platforms** — Route 53
+  and PowerDNS both auto-generate an SOA and NS record set from caller input at creation time; this
+  research did not find Cloudflare's zone API exposing a caller-facing SOA record at all (Cloudflare
+  manages its own zone metadata differently) — do not assume every platform in this skill has an
+  SOA/NS pair the same way `dns_record_management` assumes for individual zones.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
-implements this shape concretely.
+implements zone lifecycle concretely — including where a platform's own behavior further narrows or
+contradicts a generalization above.
 
 ## Procedure
 
@@ -42,10 +58,14 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Platform coverage is exactly the three vendors in `references/INDEX.md` (AWS Route 53, Cloudflare,
+  PowerDNS Authoritative Server) — a platform not listed there needs a new reference file before this
+  skill can be used for it.
 - Does not cover individual record management inside an existing zone — see `dns_record_management`
   for that.
+- Subdomain delegation is only documented in depth for the case where the parent domain's authority is
+  hosted elsewhere and a subdomain is being handed to one of these platforms — see each platform's own
+  `procedure.md` for exactly which delegation shapes it verified versus flagged as unconfirmed.
 
 ## Contributing to this skill
 

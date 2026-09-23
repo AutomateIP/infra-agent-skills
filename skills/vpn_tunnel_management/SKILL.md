@@ -1,28 +1,53 @@
 ---
 name: vpn_tunnel_management
-description: Create, read, update, and delete site-to-site and remote-access VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters, tunnel interfaces, remote-access profiles) on a supported platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, and delete site-to-site VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters, tunnel interfaces) on strongSwan, Palo Alto Networks PAN-OS, or Juniper SRX (Junos OS). Does not yet cover remote-access VPN profiles or any other platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. See references/INDEX.md for per-platform scope.
 argument-hint: "[platform] [action: create_tunnel|read_tunnel|update_tunnel|delete_tunnel] [tunnel identifier, fields]"
 ---
 
 # VPN Tunnel Management
 
-Manages site-to-site and remote-access VPN tunnel configuration on whichever platform the caller is
-targeting, following that platform's own documented procedure exactly.
+Manages site-to-site VPN tunnel configuration on whichever platform the caller is targeting,
+following that platform's own documented procedure exactly.
 
 ## When to use this skill
 
 - Creating, reading, updating, or deleting a site-to-site tunnel (IPsec/IKE phase 1 and phase 2
-  parameters, tunnel interface) or a remote-access VPN profile, on a supported platform.
+  parameters, tunnel interface) on a supported platform. Remote-access VPN profiles are not yet
+  covered by any listed platform — see Known limitations.
 
-## Universal concepts (shared VPN vocabulary — IKE/IPsec, RFC 7296 and related)
+## Universal concepts (shared VPN vocabulary — verified across strongSwan, PAN-OS, and Juniper SRX)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before a
-vendor's real behavior has been checked against them. IKEv2 is grounded in RFC 7296 as a real wire
-standard — similar to how `dns_record_management` grounds its universal concepts in RFC 1035 — but
-still verify every claim against each vendor's actual implementation before asserting it as
-universal; vendor-specific proposal/transform-set naming conventions vary even where the underlying
-IKE negotiation is standard.)*
+- **Every listed platform negotiates in two stages**, though the exact labels vary: an IKE-level
+  exchange that authenticates the peers and establishes a secure channel (phase 1 / an IKE_SA), and
+  a second exchange that negotiates the actual IPsec traffic-protection parameters (phase 2 / a
+  CHILD_SA). PAN-OS and Juniper's own documentation use "Phase 1"/"Phase 2" terminology directly;
+  strongSwan's documentation and tooling use the RFC 7296 terms IKE_SA/CHILD_SA for the same
+  two-stage structure. Treat these as the same underlying concept when translating between a
+  platform that says "phase 2" and one that says "CHILD_SA."
+- **A committed/loaded configuration is not the same fact as an established tunnel**, on every
+  platform checked. Each vendor's own procedure file distinguishes a configuration-level success
+  (commit accepted, `swanctl --load-all` succeeded, `commit` succeeded) from live negotiated state,
+  and each has its own separate state-inspection command for the latter (PAN-OS: `show vpn ike-sa`/
+  `show vpn ipsec-sa`; Juniper: `show security ike security-associations`/`show security ipsec
+  security-associations`; strongSwan: `swanctl --list-sas`). Never report a tunnel as up from
+  configuration/commit success alone — confirm with the platform's own state command.
+- **Tearing down or deleting a live tunnel/gateway/SA is disruptive on every platform checked** — it
+  drops in-flight traffic through that tunnel. Every vendor file in this skill gates its
+  delete/clear/terminate operations behind an explicit operator-confirmation step for this reason
+  (see AGENTS.md rule 7); this is confirmed common ground, not a per-vendor guess.
+- **Do not assume a specific proposal/algorithm-naming convention, DH-group numbering, or default
+  lifetime value is common across platforms.** All three platforms researched for this skill use
+  different exact keyword sets for the same underlying algorithms (e.g. PAN-OS's `aes-256-gcm`
+  crypto-profile field vs. strongSwan's dash-joined proposal strings vs. Junos's
+  `encryption-algorithm` statement using the same literal keyword `aes-256-gcm` in one case but a
+  different accepted DH-group list than PAN-OS documents) — always confirm the exact accepted values
+  against that platform's own `references/<platform>/` file rather than assuming one platform's list
+  transfers to another.
+- This skill has no single wire-level standard grounding every platform's configuration syntax the
+  way DNS has RFC 1035 — IKEv2 (RFC 7296) grounds the underlying protocol exchange conceptually, but
+  each platform's own configuration object model, field names, and CLI/API surface are vendor-
+  specific and not standardized. Treat any cross-platform claim beyond the two points above as
+  unverified until checked against a specific vendor's own procedure file.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -40,8 +65,11 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Covers strongSwan, Palo Alto Networks PAN-OS, and Juniper SRX (Junos OS) only — see
+  `references/INDEX.md`. A platform not listed there needs a new reference file before this skill
+  can be used for it.
+- Remote-access VPN profiles (GlobalProtect, IKEv2/EAP or XAuth-based remote access, etc.) are not
+  covered by any platform currently listed — every reference file here is site-to-site only.
 - Does not cover firewall rules permitting the tunnel's traffic — see `firewall_management` for that;
   a tunnel may be correctly configured and still blocked by policy this skill does not manage.
 
