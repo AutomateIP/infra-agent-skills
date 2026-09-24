@@ -56,11 +56,25 @@ one vendor's behavior from ever touching the shared file.
 | Skill | Vendors covered |
 |---|---|
 | `dns_record_management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, PowerDNS |
+| `dns_zone_management` | Route 53, Cloudflare, PowerDNS |
 | `change_management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
 | `software_upgrade_lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux |
 | `ipam_allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM |
+| `dhcp_scope_management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
 | `cmdb_asset_management` | ServiceNow CMDB |
 | `wireless_network_management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
+| `firewall_management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA |
+| `waf_management` | _(scaffolded — no vendor coverage yet)_ |
+| `load_balancing` | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy |
+| `certificate_management` | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager |
+| `vpn_tunnel_management` | strongSwan, Palo Alto PAN-OS, Juniper SRX |
+| `routing_troubleshooting` | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
+| `interface_link_troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
+| `casb_policy_management` | _(scaffolded — no vendor coverage yet)_ |
+| `casb_posture_assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
+| `crm_contact_management` | _(scaffolded — no vendor coverage yet)_ |
+| `dcim_asset_management` | _(scaffolded — no vendor coverage yet)_ |
+| `notifications` | _(scaffolded — no vendor coverage yet; Slack, MS Teams, Mattermost, email planned)_ |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
