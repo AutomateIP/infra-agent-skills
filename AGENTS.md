@@ -277,6 +277,9 @@ Before opening a PR, or before approving one, confirm:
       naming convention (rule 8) — no generic `endpoints.md` that could collide with a future
       addition.
 - [ ] `references/INDEX.md` for the affected skill lists the new/changed entry.
+- [ ] If this PR adds a new top-level capability, or adds/removes a vendor from an existing one,
+      the root [`README.md`](README.md)'s "Current Skills" table is updated to match — a PR that
+      changes what's covered without updating that table leaves the repo's own front door stale.
 - [ ] `SKILL.md` is comfortably under the token/line budget (rule 9) — checked with `wc`, not
       eyeballed.
 - [ ] No real credentials, tokens, or customer-identifying values anywhere in the diff.
