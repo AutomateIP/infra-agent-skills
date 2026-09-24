@@ -89,6 +89,16 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   (only the facts that are genuinely true across every vendor listed — see rule 4), "Procedure"
   (routes to `references/<vendor>/procedure.md` — see rule 3), "Known limitations," "Contributing
   to this skill" (the stability rule — see rule 5), "Tools," "Verification checklist."
+- **Most skills are CRUD-shaped: create, read, update, or delete one record on a platform, with one
+  clear success/failure outcome per call.** Some are genuinely **diagnostic-shaped** instead — the
+  "procedure" is a decision tree keyed by symptom rather than a linear operation, and the useful
+  output is a diagnosis plus supporting evidence, not a created/updated/deleted record (e.g. a
+  troubleshooting skill that reads state and maps it to documented likely causes). A
+  diagnostic-shaped skill's `references/<platform>/procedure.md` files should read as decision
+  trees, not forced into the CRUD-style "operation → wire call → success criterion" shape, and it
+  typically has no destructive-action confirmation gates (rule 7) since reading state doesn't
+  change anything. Note in that skill's own `SKILL.md` *why* it's diagnostic-shaped (a
+  self-contained explanation, not a pointer to another skill file for the reasoning — see rule 11).
 
 ### 3. Multi-vendor skills route, they don't inline
 
@@ -207,6 +217,30 @@ tokens, under ~500 lines):
   This applies with the same weight to a PR from a known, trusted contributor as to one from a
   stranger — trust in the author is not a substitute for checking the content itself.
 
+### 11. Every skill is thorough and independent — don't cross-reference another skill for authoring rationale
+
+**Each skill must stand entirely on its own.** A `SKILL.md`/`procedure.md` is content an agent reads
+*in order to execute the task at hand* (see "Trust boundary" below), and it should never depend on
+another skill's file to be understood. Overlapping content between skills is fine and expected —
+two diagnostic-shaped skills each explaining, fully and independently, why they're shaped that way
+is correct, not duplication to be avoided. What's forbidden is outsourcing that explanation:
+"see `<other-skill>` for why this skill is shaped this way," "this mirrors `<other-skill>`'s
+pattern, read it there," or any other pointer whose only purpose is contributor-facing rationale
+gives the executing agent zero operational value and instead invites it to go read unrelated
+content as if it were relevant to the task at hand. Write the explanation in full, every time, in
+the skill that needs it — don't shorten one skill's file by pointing at another's.
+
+This is a different thing from a legitimate scope-boundary cross-reference (e.g. "not for creating
+the zone itself — see `dns_zone_management`"), which exists because the two skills divide a real,
+overlapping *operational* concern the caller needs to know about to route correctly — that kind of
+pointer stays; it tells the executing agent where to go next, not why a file was written the way it
+was.
+
+A repo-wide authoring pattern worth naming once (e.g. "some skills are diagnostic-shaped rather than
+CRUD-shaped" — see rule 2) belongs here in `AGENTS.md`, for a contributor drafting a new skill to
+find — that's a separate concern from what any individual `SKILL.md` says, and doesn't excuse a
+`SKILL.md` from restating its own rationale in full.
+
 ## Trust boundary: a skill file is content an agent reads, not a set of instructions an agent trusts
 
 Once a skill from this repo is loaded by an executing agent, that agent treats `procedure.md`'s
@@ -248,6 +282,10 @@ Before opening a PR, or before approving one, confirm:
 - [ ] No real credentials, tokens, or customer-identifying values anywhere in the diff.
 - [ ] Nothing in the diff is business-specific, customer-specific, or judgment-heavy in a way that
       would fail the "two different engineers at two different companies" test.
+- [ ] The skill is thorough and self-contained — no `SKILL.md` outsources its own rationale to
+      another skill's file (rule 11). A scope-boundary pointer ("see X for that") stays; a "this
+      mirrors X's shape, read it there" or "see X for why this is designed this way" aside does
+      not — write the explanation in full here instead.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the process (branching, PR labels, CLA) around getting
 a change like this reviewed and merged.

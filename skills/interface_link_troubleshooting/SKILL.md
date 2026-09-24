@@ -10,17 +10,15 @@ Diagnoses physical and logical interface/link problems on whichever platform the
 by reading interface state and counters and mapping them to that platform's own documented likely
 causes — not a configuration-change skill.
 
-## Same diagnostic shape as `routing_troubleshooting` — read that skill's shape note first
+## Why this skill has a different shape than most others in this repo
 
-This skill follows the same non-CRUD, decision-tree shape documented in full in
-`routing_troubleshooting/SKILL.md`'s "Why this skill has a different shape than the others in this
-repo" section — read it there rather than re-reading a duplicated explanation here. In short: the
-"procedure" is a decision tree keyed by symptom, the useful output is a diagnosis plus the literal
-evidence that supports it (not a created/updated/deleted record), and this skill has no
-destructive-action confirmation gates because reading interface state and counters doesn't change
-anything on the platform. If a future addition to this skill ever proposes a remediation action
-(clearing counters, forcing a speed/duplex setting, administratively flapping the interface), that
-action needs its own confirmation gate exactly like any CRUD skill's destructive step.
+This skill is **diagnostic-shaped**, not CRUD-shaped (see `AGENTS.md` rule 2) — the "procedure" is a
+decision tree keyed by symptom, and the useful output is a diagnosis plus the literal evidence that
+supports it, not a created/updated/deleted record. This skill has no destructive-action confirmation
+gates because reading interface state and counters doesn't change anything on the platform. If a
+future addition to this skill ever proposes a remediation action (clearing counters, forcing a
+speed/duplex setting, administratively flapping the interface), that action needs its own
+confirmation gate exactly like any CRUD skill's destructive step.
 
 ## When to use this skill
 
