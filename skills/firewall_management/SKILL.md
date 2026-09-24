@@ -13,6 +13,9 @@ firewall platform the caller is targeting, following that platform's own documen
 
 - Creating, reading, updating, or deleting a firewall rule, address/service object, or NAT rule on a
   supported platform.
+- Not for web application firewall (WAF) rules, rate-limit rules, or managed-ruleset bindings — see
+  `waf_management` for that. A platform may offer both network-layer and application-layer
+  protection under one product line; this skill covers only the network-layer rule/object model.
 
 ## Universal concepts (shared firewall vocabulary, not a wire standard)
 

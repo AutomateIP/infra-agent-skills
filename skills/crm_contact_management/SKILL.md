@@ -1,0 +1,70 @@
+---
+name: crm_contact_management
+description: Create, read, update, and delete contact and account records on a supported customer relationship management (CRM) platform. Distinct from cmdb_asset_management (internal infrastructure/service inventory) and change_management (internal ITSM change requests) — this skill manages external-facing customer/prospect relationship data, a different object model and typically a different platform entirely. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+argument-hint: "[platform] [action: create_contact|read_contact|update_contact|delete_contact|create_account|read_account|update_account|delete_account] [record identifier, fields]"
+---
+
+# CRM Contact Management
+
+Manages contact and account records on whichever CRM platform the caller is targeting, following
+that platform's own documented procedure exactly.
+
+## When to use this skill
+
+- Creating, reading, updating, or deleting a contact (an individual person) or account (a company/
+  organization) record on a supported CRM platform.
+- Not for internal infrastructure inventory (see `cmdb_asset_management`) or internal ITSM change
+  requests (see `change_management`) — those are internally-facing records on different platforms
+  with a different object model; this skill is specifically customer/prospect relationship data.
+- Not for deals/opportunities, support cases/tickets, or marketing-campaign objects — this skill
+  covers only the contact and account record types; a platform not listed here for those other
+  object types needs its own future capability, not an expansion of this one.
+
+## Universal concepts (shared CRM vocabulary, not a wire standard)
+
+*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
+every vendor actually listed belong here. Do not pre-populate this section with assumptions before
+a vendor's real behavior has been checked against them.)*
+
+See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
+implements this shape concretely.
+
+## Procedure
+
+1. **Identify the target platform** — from the caller's request or the `platform` argument. Check
+   `references/INDEX.md`; if no matching row exists, stop: this skill doesn't cover it yet.
+2. **Open `references/<platform>/procedure.md`** and follow it exactly — it contains that platform's
+   full operational procedure, error handling, patterns, known limitations, tools, and verification
+   checklist.
+3. **Report the outcome** using that platform procedure's own status vocabulary — don't normalize it
+   away, and don't conflate a new record being created with an existing one being matched/updated,
+   on a platform that performs deduplication before write.
+
+## Known limitations
+
+- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
+  reference file before this skill can be used for it.
+- Does not cover deals/opportunities, support cases/tickets, marketing campaigns, or any other CRM
+  object type beyond contact and account records.
+- Does not cover internal infrastructure or ITSM records — see `cmdb_asset_management` and
+  `change_management` for those.
+
+## Contributing to this skill
+
+**`SKILL.md` only changes for two reasons: a bug in the universal concepts/router logic above, or
+adding a pointer to a newly-supported platform.** Platform-specific procedure changes — a new error
+code, a corrected field, a changed API path — belong in that platform's own
+`references/<platform>/procedure.md`, never here.
+
+## Tools
+
+Each platform assumes its own authenticated client — see `references/INDEX.md` for which, and that
+platform's `procedure.md` for the specific operations.
+
+## Verification checklist
+
+- [ ] Target platform confirmed against `references/INDEX.md` before proceeding
+- [ ] That platform's own `procedure.md` was followed, including its own deduplication/matching
+      behavior and confirmation gates on destructive changes (contact/account deletion)
+- [ ] Outcome reported using the platform procedure's own status vocabulary, distinguishing a newly
+      created record from a matched/updated existing one where the platform makes that distinction

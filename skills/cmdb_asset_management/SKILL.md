@@ -14,9 +14,11 @@ deduplication/identification mechanism the platform provides for writes.
 
 - Creating, reading, updating, or deleting a CI (server, application, service, etc.) or reading the
   relationships between CIs, on a supported platform.
-- Not for change requests (see `change_management`), DNS records (see `dns_record_management`), or IP
-  address allocation (see `ipam_allocation`) — those are adjacent records that may *reference* a CI by
-  identifier, but managing them is out of scope here.
+- Not for change requests (see `change_management`), DNS records (see `dns_record_management`), IP
+  address allocation (see `ipam_allocation`), or a physical asset's rack-unit/power placement (see
+  `dcim_asset_management`) — those are adjacent records that may *reference* a CI by identifier
+  (or represent the same physical device from a different angle), but managing them is out of scope
+  here.
 
 ## Universal concepts (shared CMDB vocabulary, not a wire standard)
 
