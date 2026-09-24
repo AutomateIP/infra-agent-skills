@@ -12,14 +12,10 @@ causes — not a configuration-change skill.
 
 ## Why this skill has a different shape than most others in this repo
 
-Most skills in this repository are CRUD-shaped: create, read, update, or delete one record on a
-platform, with one clear success/failure outcome per call. **BGP troubleshooting is a diagnostic
-procedure, not a CRUD operation** — the "procedure" is a decision tree (check session state → if
-Established, check whether routes are received → if received, check whether they're best-path
-selected → …), and the useful output is a diagnosis plus supporting evidence, not a single created or
-deleted record. `interface_link_troubleshooting` shares this same diagnostic shape (and points back
-here rather than duplicating this explanation) — treat the two as establishing one repeatable
-diagnostic-skill pattern, not a one-off exception. Do not force this skill's
+This skill is **diagnostic-shaped**, not CRUD-shaped (see `AGENTS.md` rule 2) — the "procedure" is a
+decision tree (check session state → if Established, check whether routes are received → if
+received, check whether they're best-path selected → …), and the useful output is a diagnosis plus
+supporting evidence, not a single created or deleted record. Do not force this skill's
 `references/<platform>/procedure.md` files into the CRUD-style "operation → wire call → success
 criterion" shape the other capabilities use — a diagnostic step's "success criterion" is "the
 operator/caller now knows which documented cause
