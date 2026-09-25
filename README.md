@@ -1,4 +1,4 @@
-# 🧰 Agent Skills
+# 🧰 Infrastructure Agent Skills
 
 Open source library of automation skills for AI agents working on network and infrastructure
 operations.
