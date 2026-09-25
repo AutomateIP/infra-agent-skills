@@ -90,7 +90,7 @@ through for Claude Code as one concrete example.
 
 1. **Clone or vendor this repo** wherever your project keeps third-party content:
    ```bash
-   git clone https://github.com/itential/agent-skills.git
+   git clone https://github.com/itential/infra-agent-skills.git
    ```
 2. **Pick the capability directory you need** — each one is fully self-contained under
    `skills/<capability>/` (its own `SKILL.md` + `references/`), so you only need to bring in the
@@ -107,9 +107,9 @@ or project-scoped (`<project>/.claude/skills/`). A symlink keeps this repo as th
 so pulling updates here doesn't require re-copying anything:
 
 ```bash
-# From your project root, after cloning agent-skills alongside it
+# From your project root, after cloning infra-agent-skills alongside it
 mkdir -p .claude/skills
-ln -s ../../agent-skills/skills/dns_record_management .claude/skills/dns_record_management
+ln -s ../../infra-agent-skills/skills/dns_record_management .claude/skills/dns_record_management
 ```
 
 Repeat the `ln -s` line per capability you want available. Claude Code picks up the new skill the
