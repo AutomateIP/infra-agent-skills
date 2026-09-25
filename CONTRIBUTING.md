@@ -1,11 +1,11 @@
-# Contributing to Agent Skills
+# Contributing to Infrastructure Agent Skills
 
 <!-- PLACEHOLDER — adapted from itential-mcp's CONTRIBUTING.md. Sections marked [PLACEHOLDER]
 below depend on decisions not yet made (license, CI/lint tooling if any). See TODO.md (untracked,
 local) for the open items. -->
 
-Thank you for your interest in contributing to Agent Skills! This document provides guidelines and
-instructions for contributing to this project.
+Thank you for your interest in contributing to Infrastructure Agent Skills! This document provides
+guidelines and instructions for contributing to this project.
 
 ## Table of Contents
 
@@ -195,7 +195,7 @@ top-level skill.
 Contributors who have their pull requests merged will be recognized in the project's contributor
 list.
 
-Thank you for contributing to Agent Skills!
+Thank you for contributing to Infrastructure Agent Skills!
 
 ---
 

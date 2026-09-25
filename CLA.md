@@ -3,7 +3,8 @@
 <!-- PLACEHOLDER — adapted from itential-mcp's CLA.md. The "License" line at the bottom depends on
 the license decision (see TODO.md, untracked, local) and is left blank until then. -->
 
-Thank you for your interest in contributing to the Agent Skills project (the "Project").
+Thank you for your interest in contributing to the Infrastructure Agent Skills project (the
+"Project").
 
 ## Individual Contributor License Agreement
 
@@ -61,6 +62,6 @@ If you have questions about this CLA, please contact us at:
 
 ---
 
-**Project:** Agent Skills
+**Project:** Infrastructure Agent Skills
 **Organization:** Itential, Inc.
 **License:** [PLACEHOLDER — not yet decided, see LICENSE.md]
