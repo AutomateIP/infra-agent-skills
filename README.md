@@ -72,7 +72,7 @@ one vendor's behavior from ever touching the shared file.
 | `interface_link_troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
 | `casb_policy_management` | _(scaffolded — no vendor coverage yet)_ |
 | `casb_posture_assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
-| `crm_contact_management` | _(scaffolded — no vendor coverage yet)_ |
+| `crm_contact_management` | Salesforce |
 | `dcim_asset_management` | _(scaffolded — no vendor coverage yet)_ |
 | `notifications` | _(scaffolded — no vendor coverage yet; Slack, MS Teams, Mattermost, email planned)_ |
 
