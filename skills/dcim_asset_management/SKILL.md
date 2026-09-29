@@ -1,6 +1,6 @@
 ---
 name: dcim_asset_management
-description: Create, read, update, and delete a physical data-center asset (server, PDU, patch panel, network device chassis) and its rack-unit placement or power-circuit assignment on a supported Data Center Infrastructure Management (DCIM) platform. Distinct from cmdb_asset_management, which manages logical Configuration Items and their service/relationship model — this skill manages the physical object's location and power, not its logical role. The same real-world server is often represented in both systems from two different angles; that overlap is expected, not a reason to merge the skills. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, and delete a physical data-center asset (server, PDU, patch panel, network device chassis) and its rack-unit placement or power-circuit assignment on a supported Data Center Infrastructure Management (DCIM) platform. Distinct from cmdb_asset_management, which manages logical Configuration Items and their service/relationship model — this skill manages the physical object's location and power, not its logical role. The same real-world server is often represented in both systems from two different angles; that overlap is expected, not a reason to merge the skills. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Currently covers NetTerrain (Graphical Networks) — see references/INDEX.md for the full vendor list.
 argument-hint: "[platform] [action: create_asset|read_asset|update_asset|delete_asset|assign_rack_unit|assign_power_circuit] [asset identifier, fields]"
 ---
 
@@ -44,8 +44,8 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Vendor coverage is limited to what's listed in `references/INDEX.md` — a platform not listed there
+  needs a new reference file before this skill can be used for it.
 - Does not cover logical CI/service-relationship data — see `cmdb_asset_management` for that.
 - Does not cover environmental or real-time power-draw monitoring — that would be a separate,
   read-only/diagnostic-shaped capability, not part of this CRUD-shaped one.
