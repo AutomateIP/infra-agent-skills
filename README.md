@@ -75,6 +75,7 @@ one vendor's behavior from ever touching the shared file.
 | `crm_contact_management` | _(scaffolded — no vendor coverage yet)_ |
 | `dcim_asset_management` | _(scaffolded — no vendor coverage yet)_ |
 | `notifications` | _(scaffolded — no vendor coverage yet; Slack, MS Teams, Mattermost, email planned)_ |
+| `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
