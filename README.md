@@ -55,6 +55,7 @@ one vendor's behavior from ever touching the shared file.
 
 | Skill | Vendors covered |
 |---|---|
+| `alert_monitor_management` | Datadog, New Relic, LogicMonitor, Paessler PRTG |
 | `dns_record_management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS |
 | `dns_zone_management` | Route 53, Cloudflare, PowerDNS |
 | `change_management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
