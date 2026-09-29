@@ -3,7 +3,10 @@
 Literal API calls behind each capability named in `vault-pki-procedure.md`. Paths below assume the
 engine is mounted at its conventional default path `pki` — an operator can mount it elsewhere, in
 which case substitute that mount path. Citation: HashiCorp Vault API documentation, "PKI Secrets
-Engine (API)," retrieved 2026-09-17.
+Engine (API)," retrieved 2026-09-17, spot-checked and corrected 2026-09-29 against the same source
+(https://developer.hashicorp.com/vault/api-docs/secret/pki) — the CRL-rotate and issuer-scoped
+CRL-read paths below were wrong in the 2026-09-17 pass and are now verified directly against the
+docs' own method/path tables.
 
 ## Issue a certificate (Vault-generated key pair)
 
@@ -47,8 +50,12 @@ a multi-issuer mount. Full chain: `GET /pki/ca_chain` (PEM) or `GET /pki/cert/ca
 
 ## Read CRL
 
-Tool hint (unauthenticated): `GET /pki/crl/:issuer_ref` (full CRL), `GET /pki/crl/delta/:issuer_ref`
-(delta CRL).
+Tool hint (unauthenticated): for the mount's default issuer, `GET /pki/crl` (DER) or `GET
+/pki/crl/pem` (PEM) for the full CRL, `GET /pki/crl/delta` (DER) or `GET /pki/crl/delta/pem` (PEM)
+for the delta CRL. For a specific issuer on a multi-issuer mount, substitute
+`GET /pki/issuer/:issuer_ref/crl` (JSON), `.../crl/der`, or `.../crl/pem` for the full CRL, and the
+equivalent `.../crl/delta`, `.../crl/delta/der`, `.../crl/delta/pem` paths for the delta CRL — there
+is no combined `/pki/crl/:issuer_ref` path.
 
 ## Revoke a certificate
 
@@ -84,8 +91,9 @@ determine whether a given issue/sign request against that role will be accepted.
 
 ## Maintenance (adjacent, not part of core issue/read/revoke)
 
-Tool hint: `POST /pki/tidy` (clean up expired/stale data), `POST /pki/rotate-crl` (rebuild the CRL on
-demand), `GET /pki/tidy-status` (progress of an in-flight tidy operation).
+Tool hint: `POST /pki/tidy` (clean up expired/stale data), `GET /pki/crl/rotate` (force-rebuild the
+CRL on demand — a GET despite being state-changing, per the engine's own documented call shape),
+`GET /pki/tidy-status` (progress of an in-flight tidy operation).
 
 ## Formats and defaults worth noting
 
