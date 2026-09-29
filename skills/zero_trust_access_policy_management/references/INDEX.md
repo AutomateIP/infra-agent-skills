@@ -1,0 +1,27 @@
+# Zero Trust Access Policy Management — Vendor Index
+
+One row per supported vendor. Each vendor directory holds its own `procedure.md` (the full
+step-by-step) plus wire-level `endpoints.md`.
+
+| Vendor / Platform | Directory | Scope | Notes |
+|---|---|---|---|
+| Zscaler Internet Access (ZIA) | `zscaler_zia/` | Create/update/delete a URL/cloud-application filtering rule | Rules are evaluated in an explicit `order`; action vocabulary includes `ISOLATE` (cloud browser isolation), not just allow/block |
+| Zscaler Private Access (ZPA) | `zscaler_zpa/` | Create/update/delete an access-policy rule (which users/groups may reach which application segments) under the `ACCESS_POLICY` policy set | Rule scope is expressed as a list of boolean `conditions`/operands, not flat fields; reordering is a separate dedicated endpoint from update |
+| Netskope | `netskope/` | Create/update/delete a private-access (NPA) policy rule via REST API v2 | Update is a partial `PATCH`, not a full `PUT`; rule placement uses a `rule_order` directive (`top`/`bottom`/`before`/`after`) rather than a numeric field in the request body |
+
+**Not in scope for this skill:** ZIA firewall filtering / DLP / file-type-control rules, ZPA policy
+set types other than access policy (timeout, client-forwarding, inspection, isolation), and Netskope
+real-time (CASB inline), internet-access, and SaaS Posture Management policy families — see each
+vendor's own `procedure.md` "Known limitations" for the precise boundary.
+
+## Adding a new vendor
+
+1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file
+   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist).
+2. Add `endpoints.md` (wire-level calls) alongside it.
+3. Add one row to the table above.
+4. Re-check every claim in `SKILL.md`'s "Universal concepts" section against the new vendor's actual
+   documented behavior before assuming it still holds — correct `SKILL.md` if the new vendor
+   contradicts it, and note the correction here.
+5. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
+   contribution note.
