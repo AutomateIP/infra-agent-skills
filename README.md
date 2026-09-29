@@ -73,7 +73,7 @@ one vendor's behavior from ever touching the shared file.
 | `casb_policy_management` | _(scaffolded — no vendor coverage yet)_ |
 | `casb_posture_assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
 | `crm_contact_management` | _(scaffolded — no vendor coverage yet)_ |
-| `dcim_asset_management` | _(scaffolded — no vendor coverage yet)_ |
+| `dcim_asset_management` | NetTerrain (Graphical Networks) |
 | `notifications` | _(scaffolded — no vendor coverage yet; Slack, MS Teams, Mattermost, email planned)_ |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
