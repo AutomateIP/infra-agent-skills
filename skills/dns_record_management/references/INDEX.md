@@ -8,7 +8,7 @@ plus wire-level `endpoints.md` and, where the vendor has non-obvious per-type fi
 | AWS Route 53 | `route53/` | Create/update(upsert)/delete a basic record, with propagation confirmation | Change-batch model, `PENDING`→`INSYNC` polling |
 | Azure DNS | `azure/` | Create/update/delete a record **set** (not a single record), add/remove within a set | Record-set (not record) model; zone-apex SOA/NS restrictions |
 | Cloudflare | `cloudflare/` | Create a record (create-only) | Proxy-status gate requires operator confirmation |
-| Infoblox NIOS | `infoblox/` | Create A/CNAME/PTR/NS/Fixed Address (create-only) | Idempotent by design; derived from an internal workflow project, not the published WAPI manual — verify before production use |
+| Infoblox NIOS | `infoblox/` | Create/read/update/delete A/AAAA/CNAME/MX/TXT/PTR | `_ref`-addressed object model (WAPI); grounded in Infoblox's own official WAPI reference guide, with per-type field names cross-checked against Infoblox's generated WAPI object schema — see `procedure.md` for the one unconfirmed detail (exact duplicate-object error string) |
 | BlueCat Horizon / DDI Orchestrator | `bluecat/` | Create a record (create-only) | Record type is immutable once created; field names drawn from a secondary source — verify against the target instance |
 | PowerDNS Authoritative Server | `powerdns/` | Create/replace/delete an RRset, plus incremental single-record add (`EXTEND`)/remove (`PRUNE`) without touching the rest of the RRset | The only platform here with a native incremental-add/-remove primitive — others require a read-modify-write cycle for the same "add one value to a multi-value record" ask. Also the only platform with in-scope DNSSEC rectification (see note below). |
 
