@@ -1,6 +1,6 @@
 ---
 name: crm_contact_management
-description: Create, read, update, and delete contact and account records on a supported customer relationship management (CRM) platform. Distinct from cmdb_asset_management (internal infrastructure/service inventory) and change_management (internal ITSM change requests) — this skill manages external-facing customer/prospect relationship data, a different object model and typically a different platform entirely. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, and delete contact and account records on a supported customer relationship management (CRM) platform — currently Salesforce (REST API, generic sobjects/Contact endpoints). Distinct from cmdb_asset_management (internal infrastructure/service inventory) and change_management (internal ITSM change requests) — this skill manages external-facing customer/prospect relationship data, a different object model and typically a different platform entirely. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for exact per-vendor scope.
 argument-hint: "[platform] [action: create_contact|read_contact|update_contact|delete_contact|create_account|read_account|update_account|delete_account] [record identifier, fields]"
 ---
 
@@ -22,9 +22,21 @@ that platform's own documented procedure exactly.
 
 ## Universal concepts (shared CRM vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before
-a vendor's real behavior has been checked against them.)*
+There is no wire-level standard behind CRM contact records the way DNS has RFC 1035 — these claims are
+drawn from Salesforce's own documented behavior, the only vendor covered so far, and must be
+re-checked against each new vendor added (see `AGENTS.md` rule 4):
+
+- **A contact record's identity is platform-assigned, not caller-supplied.** The unique record
+  identifier is generated at creation time; a create call never accepts a caller-chosen ID.
+- **A contact's name is the one structurally-required field; nearly everything else is optional
+  unless an org/tenant has layered its own validation on top.** Don't assume fields like email or
+  phone are mandatory just because they're commonly populated in practice.
+- **Updates are partial, not whole-record replacements.** Sending only the changed fields is both
+  sufficient and correct — omitted fields keep their existing stored values rather than being cleared.
+- **A successful write and a duplicate-detection match are two different facts.** Where a platform
+  offers built-in matching/duplicate-management, it can be enabled or disabled per org — never assume
+  a create call was deduplicated against an existing record unless that platform's own procedure
+  confirms it ran.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -42,8 +54,11 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Vendor coverage is currently Salesforce only — see `references/INDEX.md`. A platform not listed
+  there needs a new reference file before this skill can be used for it.
+- Salesforce coverage is Contact records only (create/read/update/delete via the generic `sobjects`
+  REST resource) — Account records are not yet covered for any vendor, despite being in this skill's
+  stated scope; adding Account coverage for Salesforce or any other vendor is future work.
 - Does not cover deals/opportunities, support cases/tickets, marketing campaigns, or any other CRM
   object type beyond contact and account records.
 - Does not cover internal infrastructure or ITSM records — see `cmdb_asset_management` and
