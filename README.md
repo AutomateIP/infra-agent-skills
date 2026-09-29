@@ -75,6 +75,7 @@ one vendor's behavior from ever touching the shared file.
 | `crm_contact_management` | _(scaffolded — no vendor coverage yet)_ |
 | `dcim_asset_management` | _(scaffolded — no vendor coverage yet)_ |
 | `notifications` | _(scaffolded — no vendor coverage yet; Slack, MS Teams, Mattermost, email planned)_ |
+| `repository_pull_request_management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
