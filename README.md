@@ -76,6 +76,7 @@ one vendor's behavior from ever touching the shared file.
 | `dcim_asset_management` | NetTerrain (Graphical Networks) |
 | `notifications` | Slack, Cisco Webex, Microsoft Teams |
 | `secret_retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
+| `repository_pull_request_management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
