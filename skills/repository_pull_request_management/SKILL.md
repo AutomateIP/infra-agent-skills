@@ -37,12 +37,10 @@ documented API procedure, field rules, and merge/approval model.
   must pick one; there is no universal default that's safe to assume without checking the target
   platform's own procedure.
 - **Review/approval is where these platforms genuinely diverge — do not assume one model fits all.**
-  GitHub models a review as its own object with an explicit event (approve/request-changes/comment)
-  that branch-protection rules can require. GitLab separates "approve" from the merge-request update
-  itself via a dedicated approvals API tied to configurable approval rules. Bitbucket Cloud exposes a
-  simple approve/unapprove toggle plus a separate request-changes action. Bitbucket Server & Data
-  Center represents a reviewer's stance as a status field on a participant record. Treat approval as a
-  platform-specific step every time — see that platform's own `procedure.md`.
+  Each platform models a reviewer's stance (approve, request changes, comment) as its own distinct
+  kind of object or field, with its own API shape and its own relationship to branch-protection/
+  merge-check rules. Treat approval as a platform-specific step every time — see that platform's own
+  `procedure.md` for exactly how it represents it.
 - **Merging a request is a hard-to-reverse, production-affecting action** — once merged, the change is
   in the target branch's history; undoing it is a new revert commit/PR, not an in-place undo. Every
   platform procedure below requires operator confirmation before a merge call is submitted (see

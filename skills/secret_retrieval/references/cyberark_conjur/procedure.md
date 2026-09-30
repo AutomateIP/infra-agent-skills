@@ -10,9 +10,7 @@ Source: CyberArk's own canonical Conjur OpenAPI specification, published and mai
 github.com/cyberark/conjur-openapi-spec, and CyberArk's hosted documentation describing the same
 authentication and secrets endpoints (docs.cyberark.com, under the Conjur/Secrets Manager developer
 API sections — search-indexed confirmation of endpoint names and behavior used where the docs site
-itself could not be fetched directly, retrieved 2026-09-29). Cross-checked against the shape of a
-locally curated Conjur OpenAPI extract, which is itself derived from the same canonical spec
-repository, to confirm operation names and field structures.
+itself could not be fetched directly, retrieved 2026-09-29).
 
 ## Operational procedure
 

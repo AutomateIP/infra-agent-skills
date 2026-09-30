@@ -6,8 +6,8 @@ image ready to deploy. Source: docs.docker.com "Docker Hub API" reference (`/ref
 retrieved 2026-09-29.
 
 **Scope boundary with `docker_engine/procedure.md`: Docker Hub's own API does not move image bytes.**
-The actual push/pull transfer is a separate, documented Docker Engine operation (`images/create` to
-pull, `images/{name}/push` to push — see `docker_engine/procedure.md`/`endpoints.md`), authenticated
+The actual push/pull transfer is a separate, documented Docker Engine operation (pulling an image, or
+pushing one — see `docker_engine/procedure.md`/`endpoints.md` for the literal calls), authenticated
 with a credential obtained through this file's step 1. This file's job in a deployment workflow is:
 authenticate, make sure the target repository exists, and afterward verify what tag actually landed —
 not the transfer itself.

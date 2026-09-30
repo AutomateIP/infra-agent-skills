@@ -7,7 +7,7 @@ creating brand-new objects from scratch isn't supported through it) and document
 acknowledgment call on both APIs, since either may be what an existing integration expects.
 Assumes an authenticated client against the target PRTG core server is already available (a
 username/password or username/passhash pair for the older HTTP API; an API key sent as a Bearer
-token, or a `POST /session` login, for API v2).
+token, or a session login, for API v2 — see `endpoints.md` for the literal call).
 
 Sources consulted (retrieved 2026-09-29): PRTG API v2 Overview
 (https://www.paessler.com/support/prtg/api/v2/overview); PRTG Manual, "HTTP API"

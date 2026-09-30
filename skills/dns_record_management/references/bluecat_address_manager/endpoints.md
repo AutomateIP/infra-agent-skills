@@ -6,16 +6,15 @@ adapter is assumed available.
 Base path: Address Manager's RESTful v2 API is rooted at `/api/v2` on the appliance
 (`https://<address-manager-host>:<port>/api/v2/...`). The interactive Swagger UI for the exact
 version running on a given appliance lives at `http(s)://<host>/api/docs` — treat that as the
-authoritative field/response reference for the live instance; this file reflects the publicly
-published guide plus a previously live-tested build against a real Address Manager instance.
+authoritative field/response reference for the live instance; this file reflects BlueCat's publicly
+published v2 API guide.
 
 ## Authentication
 
 BlueCat's own v2 API guide states the RESTful v2 API accepts both the Basic and Bearer HTTP
-authentication schemes. The live-tested build behind this procedure used HTTP Basic authentication with
-the account's username as the user portion and a pre-issued API token (generated once in Address
-Manager for that account) as the password portion — not the account's login password. Confirm which
-scheme a given instance expects/prefers before hardcoding one.
+authentication schemes. The guide does not specify which credential (login password vs. a
+separately-issued API token) each scheme expects — confirm against the target instance's own
+`/api/docs` Swagger UI before hardcoding a scheme or credential shape.
 
 ## Find the target zone
 

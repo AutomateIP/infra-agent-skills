@@ -57,8 +57,8 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    these operations changes live enforcement for real user traffic the moment it is applied (see
    Universal concepts in `SKILL.md`). This applies equally to a rule reorder, since reordering can
    change which rule matches first for existing traffic without changing either rule's own fields.
-8. **Submit the call** — create (`POST`), update (`PUT` against the rule's `id`), or delete
-   (`DELETE` against the rule's `id`) per `endpoints.md`.
+8. **Submit the call** — create, update against the rule's `id`, or delete against the rule's `id`,
+   per `endpoints.md`.
 9. **Confirm the outcome.** A create/update returning the rule object (with a populated `id` for
    create) is the success signal; a delete returning a success status with no body is the success
    signal for delete. If the calling tool needs a separate confirmation read, fetch the rule by `id`
@@ -89,8 +89,9 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
   families are separate objects with their own endpoints, not covered here.
 - The source used for field-level grounding (Zscaler's own `zscaler-sdk-go` service package) is the
   SDK's typed Go representation of the wire format, not narrative admin-guide prose — where the SDK
-  source itself notes a workaround for platform behavior (e.g. a documented gap where a GET-by-ID
-  response omits the CBI profile for isolate-action rules, requiring a list-all fallback to recover
+  source itself notes a workaround for platform behavior (e.g. a documented gap where reading a
+  single rule by its `id` omits the CBI profile for isolate-action rules, requiring a list-all
+  fallback to recover
   it), that gap is treated as a real, current platform limitation, not an SDK bug to route around
   silently — surface it if the caller's flow depends on reading `cbiProfile` back immediately after
   create/update.

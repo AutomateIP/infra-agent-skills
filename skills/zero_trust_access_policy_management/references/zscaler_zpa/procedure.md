@@ -60,9 +60,8 @@ tenant, and the target customer's `customerId`, are available (see `endpoints.md
    every one of these changes live reachability for real users and application segments the moment
    it is applied (see Universal concepts in `SKILL.md`), and a reorder alone can change which rule
    matches first for existing traffic without changing any rule's own fields.
-8. **Submit the call** — create (`POST` under the policy set), update (`PUT` against the rule's
-   `id`), delete (`DELETE` against the rule's `id`), or reorder (`PUT` against the dedicated reorder
-   path) per `endpoints.md`.
+8. **Submit the call** — create under the policy set, update against the rule's `id`, delete against
+   the rule's `id`, or reorder via the dedicated reorder call, per `endpoints.md`.
 9. **Confirm the outcome.** A create/update returning the rule object (with a populated `id` for
    create) is the success signal; delete and reorder are confirmed by a success status. If the
    calling tool needs a separate confirmation read, fetch the rule by `id` (or re-list the policy
@@ -80,8 +79,8 @@ tenant, and the target customer's `customerId`, are available (see `endpoints.md
   fields, ZPA's rule scope is a structured `conditions` tree of operator/operand pairs — treat this
   as the rule's actual match logic, not an implementation detail to flatten away.
 - **Reorder is a separate concern from update.** Changing a rule's fields (update) and changing its
-  position (reorder) are two different documented endpoints — do not assume a `PUT` on the rule
-  itself repositions it, or that a reorder call is also the place to change rule fields.
+  position (reorder) are two different documented endpoints — do not assume updating the rule itself
+  repositions it, or that a reorder call is also the place to change rule fields.
 - **String-typed fields that look numeric/boolean.** The SDK source types `priority`, `ruleOrder`,
   and `disabled` as strings, not integers/booleans, in the wire format — pass them as strings, not
   native numeric/boolean JSON types, when building a request by hand.

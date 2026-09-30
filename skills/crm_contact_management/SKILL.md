@@ -1,7 +1,7 @@
 ---
 name: crm_contact_management
 description: Create, read, update, and delete contact and account records on a supported customer relationship management (CRM) platform — currently Salesforce (REST API, generic sobjects/Contact endpoints). Distinct from cmdb_asset_management (internal infrastructure/service inventory) and change_management (internal ITSM change requests) — this skill manages external-facing customer/prospect relationship data, a different object model and typically a different platform entirely. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for exact per-vendor scope.
-argument-hint: "[platform] [action: create_contact|read_contact|update_contact|delete_contact|create_account|read_account|update_account|delete_account] [record identifier, fields]"
+argument-hint: "[platform] [action: create_contact|read_contact|update_contact|delete_contact] [record identifier, fields]"
 ---
 
 # CRM Contact Management

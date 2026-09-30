@@ -33,12 +33,11 @@ platforms, following that platform's own documented API shape and access-control
   permission to the specific secret/path/item, and all six generate some form of access record for
   that identity performing that action, though the exact audit mechanism differs (Vault audit
   device, CloudTrail, platform-native activity log).
-- **Versioning is not universal — verify it per platform before relying on it.** Vault KV v2, AWS
-  Secrets Manager, and Azure Key Vault keep a version history a caller can address explicitly; Vault
-  KV v1, 1Password, and CyberArk Conjur/Privilege Cloud do not expose an equivalent
-  caller-addressable version chain in the same way (Conjur does retain a bounded number of past
-  values server-side, but the take-away for this skill is: don't assume "read a specific prior
-  version" is possible everywhere without checking that platform's own procedure first).
+- **Versioning is not universal — verify it per platform before relying on it.** Some platforms keep
+  a version history a caller can address explicitly; others don't expose an equivalent
+  caller-addressable version chain. Don't assume "read a specific prior version" is possible
+  everywhere without checking that platform's own procedure first — see each platform's own
+  `procedure.md` for exactly what it supports.
 - **Overwriting or rotating a secret that's in active use is hard to reverse.** Every platform
   procedure below has its own confirmation gate on this — never skip it because the API call itself
   would succeed silently.

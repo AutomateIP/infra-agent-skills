@@ -90,11 +90,11 @@ confirmation gate.
 
 ### 6. Scale via the dedicated scale subresource
 
-For a replica-count-only change, PUT or PATCH the `/scale` subresource with an `autoscaling/v1` `Scale`
+For a replica-count-only change, update the dedicated scale subresource with an `autoscaling/v1` `Scale`
 object body (`spec.replicas` set to the desired count) rather than editing the full Deployment's
 `spec.replicas` directly — this is the narrower, purpose-built write path and the one autoscaler
-controllers are documented to use themselves. Read the same subresource (`GET .../scale`) first if the
-current replica count and `status.selector` aren't already known.
+controllers are documented to use themselves. Read the same subresource first if the current replica
+count and `status.selector` aren't already known (see `endpoints.md` for the literal calls).
 
 **Scaling down (including to 0) terminates running pods and is hard to reverse** in the sense that any
 in-flight work on those pods is lost — stop and confirm with the operator before submitting a
@@ -165,12 +165,12 @@ Every non-2xx response carries a `Status` object (`kind: Status`, `status: Failu
 
 ## Tools
 
-Every operation maps to the Kubernetes API server's REST interface under `apis/apps/v1` — see
-`endpoints.md` for literal paths, request/response shapes, and the PATCH content-type table.
+Every operation maps to the Kubernetes API server's Deployments REST interface — see `endpoints.md`
+for literal paths, request/response shapes, and the PATCH content-type table.
 
 | Operation | Description | Category |
 |---|---|---|
-| Create Deployment | `POST` a new Deployment into a namespace | Workload Management |
+| Create Deployment | Create a new Deployment in a namespace | Workload Management |
 | Get/List Deployment(s) | Read one or all Deployments in a namespace (or cluster-wide) | Workload Management |
 | Patch/Replace Deployment | Update an existing Deployment's spec (image, template, strategy, etc.) | Workload Management |
 | Delete Deployment | Remove a Deployment with a chosen cascade policy | Workload Management |

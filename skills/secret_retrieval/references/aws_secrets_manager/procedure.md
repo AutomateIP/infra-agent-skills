@@ -7,8 +7,7 @@ policy granting access is out of scope here.
 
 Source: AWS's own Secrets Manager API Reference (docs.aws.amazon.com/secretsmanager/latest/
 apireference/), specifically the GetSecretValue, PutSecretValue, RotateSecret, and DescribeSecret
-action pages, retrieved 2026-09-29. Cross-checked against the shape of a locally curated Secrets
-Manager OpenAPI extract (itself sourced from the same AWS API Reference) to confirm field names.
+action pages, retrieved 2026-09-29.
 
 ## Operational procedure
 

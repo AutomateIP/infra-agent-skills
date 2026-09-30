@@ -7,8 +7,6 @@ scope here.
 
 Source: 1Password's own Connect API reference (developer.1password.com/docs/connect, which
 currently redirects to www.1password.dev/connect/connect-api-reference/), retrieved 2026-09-29.
-Cross-checked against the shape of a locally curated 1Password Connect OpenAPI extract (itself
-sourced from the same reference) to confirm operation names and field structures.
 
 ## Operational procedure
 

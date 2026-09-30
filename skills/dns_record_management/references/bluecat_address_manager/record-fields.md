@@ -1,9 +1,7 @@
 # Record Field Reference — BlueCat Address Manager Resource Record Object
 
 Field list for the resource-record object accepted by Address Manager's v2 API `resourceRecords`
-create/update calls, drawn from BlueCat's own RESTful v2 API guide's resource model plus a
-previously live-tested build's confirmed request/response schema against a real Address Manager
-instance.
+create/update calls, drawn from BlueCat's own RESTful v2 API guide's resource model.
 
 ## Common fields (every type)
 
@@ -29,8 +27,8 @@ instance.
 
 ## Record types confirmed available through `resourceRecords`
 
-Host, CNAME, Alias, MX, TXT, SRV — these six are the set confirmed both in the public v2 API guide's
-resource model and in a real, previously live-tested build against an Address Manager instance.
+Host, CNAME, Alias, MX, TXT, SRV — these six are the set confirmed in the public v2 API guide's
+resource model.
 
 ## Not confirmed through this endpoint
 

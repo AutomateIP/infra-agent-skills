@@ -116,9 +116,9 @@ to remove a running container without `force`; `500` server error.
   success status** — always check them, not just the status code.
 - **`State.Status` is authoritative over the individual booleans** (`Running`/`Paused`/`Restarting`)
   for determining what state a container is actually in.
-- **Registry-facing calls (`images/create` to pull, `images/{name}/push`) need `X-Registry-Auth`; plain
-  container lifecycle calls (create/start/stop/remove) don't** — don't attach registry credentials
-  where they aren't needed, and don't skip them where they are.
+- **Registry-facing calls (pulling or pushing an image) need `X-Registry-Auth`; plain container
+  lifecycle calls (create/start/stop/remove) don't** — don't attach registry credentials where they
+  aren't needed, and don't skip them where they are.
 
 ## Known limitations
 

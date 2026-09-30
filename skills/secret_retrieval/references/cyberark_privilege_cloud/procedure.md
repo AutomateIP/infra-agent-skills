@@ -14,10 +14,7 @@ of writing; treat any field name below not independently re-confirmed against a 
 Swagger UI as provisional. CyberArk does not publish a static, versioned OpenAPI/Swagger file for
 Privilege Cloud (each tenant serves its own live Swagger UI with no stable external URL), so unlike
 the other five vendors in this skill there is no pinnable canonical spec to cite alongside the docs
-pages. Cross-checked against the shape of a locally curated Privilege Cloud API extract (itself
-explicitly noted as hand-authored from a third-party REST collection rather than from CyberArk's
-docs, precisely because of that missing static spec) for operation and field-name plausibility only
-— not treated as a grounding source in its own right.
+pages.
 
 **Given the above, verify every field name and path in this file against your own tenant's Swagger
 UI (reachable at `https://<subdomain>.privilegecloud.cyberark.com/PasswordVault/Swagger/` per

@@ -30,12 +30,11 @@ handling live in `references/<platform>/procedure.md`.
   is preparing/verifying the reference the other two consume, not deploying anything itself.
 - **There is no single wire-level standard spanning all three platforms**, unlike DNS's RFC 1035 —
   treat every endpoint, field name, and status code as platform-specific unless stated otherwise here.
-  Kubernetes is the one outlier with unusually rigorous, centrally documented API behavior: its own
-  API conventions (optimistic concurrency via `metadata.resourceVersion`, a shared `Status` object on
-  every error response, and three interchangeable PATCH content-types) apply uniformly across every
-  Kubernetes resource type, not just Deployments — see `references/kubernetes/procedure.md` for the
-  specifics. Docker Engine and Docker Hub each define their own request/response shapes independently,
-  with no equivalent shared convention layer between them.
+  Kubernetes is the one outlier with unusually rigorous, centrally documented API behavior: a set of
+  API conventions apply uniformly across every Kubernetes resource type, not just Deployments — see
+  `references/kubernetes/procedure.md` for the specifics. Docker Engine and Docker Hub each define
+  their own request/response shapes independently, with no equivalent shared convention layer
+  between them.
 - **Removing a running workload is destructive and hard to reverse** — a Kubernetes Deployment delete
   tears down its ReplicaSets and Pods, and a Docker Engine container removal discards the container's
   writable layer unless volumes were used. Every platform procedure below has its own confirmation

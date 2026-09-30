@@ -7,8 +7,7 @@ auth method (userpass, AppRole, cloud auth, etc.) is out of scope here.
 
 Source: HashiCorp's own Vault API documentation for the KV v2 secrets engine and the KV v1
 secrets engine (developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2 and .../kv-v1), retrieved
-2026-09-29. Cross-checked against the shape of a locally curated Vault OpenAPI extract (itself
-sourced from the same HashiCorp API docs) to confirm operation IDs and field names.
+2026-09-29.
 
 ## Operational procedure
 
@@ -69,8 +68,6 @@ delete, since it has no version history to soft-delete from):
   version (delete against the `data` path) or a specific list of version numbers (`delete` sub-path
   with a `versions` array in the body). **Confirm with the operator before this step** even though
   it's recoverable, since a caller depending on that secret loses access immediately.
-  - `PowerDNS`-style automatic restoration doesn't apply here — nothing else about a Vault mount
-    reacts to this state change; it's purely a version-visibility flag.
 - **Undelete** (reverse a soft delete) — same `versions` array shape, against the `undelete`
   sub-path. Restores read access to those specific versions.
 - **Destroy** (irreversible; the underlying data is actually removed) — same `versions` array shape,

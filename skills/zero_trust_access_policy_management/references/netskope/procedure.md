@@ -45,14 +45,13 @@ tenant is available (see `endpoints.md` for the header format).
    if the caller has a required relative position, resolve which existing rule (by ID) the new rule
    must sit before/after, and set `rule_order` accordingly rather than leaving placement to
    whatever the platform defaults to.
-6. **Stop and confirm with the operator before submitting create, update (`PATCH`), or delete** —
-   every one of these changes live private-app reachability the moment it is applied (see Universal
-   concepts in `SKILL.md`).
-7. **Submit the call** — create (`POST`), partial update (`PATCH` against the rule's `id`), or delete
-   (`DELETE` against the rule's `id`) per `endpoints.md`. Note that update is documented as a partial
-   update (`PATCH`), not a full-replace `PUT` — only the fields included in the request body are
-   changed; omitted fields retain their current value, so do not assume an update payload needs to
-   restate the entire rule.
+6. **Stop and confirm with the operator before submitting a create, update, or delete** — every one
+   of these changes live private-app reachability the moment it is applied (see Universal concepts
+   in `SKILL.md`).
+7. **Submit the call** — create, partial update against the rule's `id`, or delete against the rule's
+   `id`, per `endpoints.md`. Note that update is documented as a partial update, not a full replace —
+   only the fields included in the request body are changed; omitted fields retain their current
+   value, so do not assume an update payload needs to restate the entire rule.
 8. **Confirm the outcome.** Treat a successful create/update response containing the rule object
    (with a populated `id` on create) as the success signal; treat a successful delete status as the
    success signal for delete. If the calling tool needs a separate confirmation read, fetch the rule
@@ -68,7 +67,7 @@ tenant is available (see `endpoints.md` for the header format).
   `rule_name`, `enabled`, `access_method`, `policy_type`, `group_id`/`group_name`, `description`, and
   `rule_order` as the rule's identity/placement/grouping metadata, and everything that actually
   determines who can reach what as living inside `rule_data`.
-- **Update is partial, not a full replace.** A `PATCH` with only the changed fields is correct and
+- **Update is partial, not a full replace.** Submitting only the changed fields is correct and
   expected — do not read the fields back and resend the entire object unless the caller specifically
   wants to confirm the full resulting state.
 - **`rule_order` is directional, not a bare index.** Placement is expressed as a mode

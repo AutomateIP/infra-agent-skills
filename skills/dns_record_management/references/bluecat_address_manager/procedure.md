@@ -21,10 +21,7 @@ retrieved 2026-09-29) plus BlueCat's own published product pages distinguishing 
 Manager/Integrity from Horizon. Address Manager also ships an interactive Swagger UI on the appliance
 itself (`http(s)://<host>/api/docs`) that documents the live, version-exact endpoint/schema set — treat
 that as the authoritative source for any field this procedure doesn't cover, since the public docs
-describe the API's shape and conventions rather than every resource's full schema. This procedure's
-resource-record field list was cross-checked against a previously live-tested Integration Model build
-for Address Manager's v2 API (a curated 6-type request/response schema exercised against a real
-instance) to confirm the shapes below are genuine, not just paper reads.
+describe the API's shape and conventions rather than every resource's full schema.
 
 ## Operational procedure
 

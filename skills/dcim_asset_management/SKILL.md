@@ -1,18 +1,18 @@
 ---
 name: dcim_asset_management
-description: Create, read, update, and delete a physical data-center asset (server, PDU, patch panel, network device chassis) and its rack-unit placement or power-circuit assignment on a supported Data Center Infrastructure Management (DCIM) platform. Distinct from cmdb_asset_management, which manages logical Configuration Items and their service/relationship model — this skill manages the physical object's location and power, not its logical role. The same real-world server is often represented in both systems from two different angles; that overlap is expected, not a reason to merge the skills. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Currently covers NetTerrain (Graphical Networks) — see references/INDEX.md for the full vendor list.
-argument-hint: "[platform] [action: create_asset|read_asset|update_asset|delete_asset|assign_rack_unit|assign_power_circuit] [asset identifier, fields]"
+description: Create, read, update, and delete a physical data-center asset (server, PDU, patch panel, network device chassis) and its rack-unit placement on a supported Data Center Infrastructure Management (DCIM) platform. Distinct from cmdb_asset_management, which manages logical Configuration Items and their service/relationship model — this skill manages the physical object's location, not its logical role. The same real-world server is often represented in both systems from two different angles; that overlap is expected, not a reason to merge the skills. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Currently covers NetTerrain (Graphical Networks) — see references/INDEX.md for the full vendor list.
+argument-hint: "[platform] [action: create_asset|read_asset|update_asset|delete_asset|assign_rack_unit] [asset identifier, fields]"
 ---
 
 # DCIM Asset Management
 
-Manages physical data-center assets and their rack-unit/power-circuit placement on whichever DCIM
-platform the caller is targeting, following that platform's own documented procedure exactly.
+Manages physical data-center assets and their rack-unit placement on whichever DCIM platform the
+caller is targeting, following that platform's own documented procedure exactly.
 
 ## When to use this skill
 
 - Creating, reading, updating, or deleting a physical asset record, or assigning/reassigning its
-  rack-unit position or power-circuit connection, on a supported platform.
+  rack-unit position, on a supported platform.
 - Not for a logical Configuration Item's service/relationship model (what depends on what,
   application ownership) — see `cmdb_asset_management` for that. The same physical server commonly
   has a record in both systems: this skill's record is "where is it and what powers it," the CMDB's
@@ -66,6 +66,5 @@ platform's `procedure.md` for the specific operations.
 
 - [ ] Target platform confirmed against `references/INDEX.md` before proceeding
 - [ ] That platform's own `procedure.md` was followed, including its own confirmation gates on
-      destructive changes (asset deletion, rack-unit/power-circuit unassignment affecting a live
-      device)
+      destructive changes (asset deletion, rack-unit unassignment affecting a live device)
 - [ ] Outcome reported using the platform procedure's own status vocabulary
