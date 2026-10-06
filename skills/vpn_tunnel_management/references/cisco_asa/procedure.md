@@ -21,7 +21,8 @@ secondary sources. The chapter does not print its guide version or date.
 ## Applicability checks
 
 - Device must be in single-context, routed mode, and not clustered. Dynamic VTI also lacks support
-  for ECMP, VRF, IKEv1, and QoS (so it is IKEv2 only).
+  for ECMP, VRF, IKEv1, and QoS (inference: dynamic VTI is therefore IKEv2-only; the chapter
+  states the exclusions, not that conclusion).
 - Release dependence (feature history): dynamic VTI, OSPF/EIGRP over VTI, and loopback interfaces
   as tunnel source or address source arrive in 9.19(1); IPv6 on static VTI and the 1024-VTI ceiling
   arrive in 9.16(1), and releases before that capped the count at 100. The release that first
@@ -36,18 +37,22 @@ secondary sources. The chapter does not print its guide version or date.
   holds several IPv6 addresses, one can be chosen as the endpoint, otherwise the first global one
   is used.
 - Only IPsec mode exists on a VTI; terminating GRE on the ASA is unsupported.
-- The VTI's tunnel source must not be an address borrowed from another interface.
+- Where a VTI uses `ip unnumbered`/`ipv6 unnumbered`, the interface lending its address (the
+  "borrow" interface) should not be used as the tunnel source address for any VTI, static or
+  dynamic. The chapter's wording is terse; whether "any VTI" means any VTI on the device or only
+  the same VTI is not clear (unknown), so avoid the overlap entirely.
 - Platform-wide behaviors worth knowing: all VTI traffic is encrypted by default; the VTI security
-  level is 0 and cannot be changed; Security Group Tag traffic is discarded once decrypted; both IKE
-  versions are supported for static VTI; NAT in the path causes IKE and ESP to be wrapped in UDP;
-  the ASA keeps rekeying IKE and IPsec SAs whether or not data is flowing, so a tunnel stays up when
-  idle; static, BGP, OSPF, and EIGRP routes can steer traffic into a VTI; ICMP ping works between
-  VTI interfaces.
+  level is 0 and cannot be changed; Security Group Tag traffic is discarded once decrypted; NAT in the
+  path causes IKE and ESP to be wrapped in UDP; IKE and IPsec SA rekeys are not tied to traffic
+  volume, which is how the chapter says VTI tunnels remain permanently up; static, BGP, OSPF, and EIGRP routes can steer traffic into a VTI; ICMP ping works between
+  VTI interfaces. The chapter says VTI supports IKEv1 and IKEv2 generally; reading that as
+  covering static VTI is an inference, since the dynamic-VTI limits above are listed separately.
 - A dynamic VTI hub supports only hub-and-spoke topology; the chapter's wording places this in the
   management-center context, so whether it is a limit of the feature everywhere is unclear.
-- If the ASA is in two VTI domains and has a BGP adjacency on a physical interface, an
-  interface-health state change deletes that interface's routes until BGP re-forms with the newly
-  active peer. Logical VTI interfaces are not affected.
+- Routing caveat for a device that belongs to two VTI domains and runs BGP over a physical
+  interface: a state change triggered by the interface health check removes that physical
+  interface's routes until BGP re-forms with the new active peer. Logical (VTI) interfaces do not
+  show this behavior.
 
 ## Operational procedure
 
@@ -58,9 +63,9 @@ secondary sources. The chapter does not print its guide version or date.
    tunnel group on both ends (no command syntax for the tunnel-group trustpoint is given — unknown).
    Take any pre-shared key from the caller's secret store; do not hardcode one.
 
-2. **Check for crypto-map conflicts before any dynamic VTI.** When dynamic crypto maps and a
-   dynamic VTI both serve LAN-to-LAN VPNs, only the dynamic VTI tunnels come up because both claim
-   the default tunnel group. Cisco's remedies: move those VPNs to dynamic VTI, or give static crypto
+2. **Check for crypto-map conflicts before any dynamic VTI.** Mixing dynamic crypto maps and a
+   dynamic VTI for LAN-to-LAN VPNs leaves only the dynamic VTI tunnels working; the chapter's
+   explanation is that both mechanisms rely on the default tunnel group. Cisco's remedies: move those VPNs to dynamic VTI, or give static crypto
    maps their own tunnel groups. A VTI and a crypto map may share one physical interface if the
    crypto map's peer differs from the VTI's tunnel destination.
    **Stop and confirm with the operator before adding a dynamic VTI to a device that has crypto-map
@@ -102,8 +107,9 @@ secondary sources. The chapter does not print its guide version or date.
        so the initiator can complete rekeys.
      - IKEv1 against an IOS peer: IOS is the side that should be responder-only, because it lacks
        continuous-channel mode; the ASA then initiates and rekeys.
-     - Peer rekey behavior unknown: drop responder-only so either side can bring up the SA, or set
-       an unlimited IPsec lifetime on the responder-only end so it cannot expire.
+     - Peer's rekey configuration not known: two documented fallbacks are removing responder-only
+       (so either end may start SA setup) or giving the responder-only end an infinite IPsec
+       lifetime (so its SA never ages out).
 
 5. **Static VTI: create the tunnel interface.**
    ```
@@ -187,8 +193,8 @@ secondary sources. The chapter does not print its guide version or date.
    crypto ikev2 enable <interface-name>
    ```
    The tunnel-group name has to equal the IKE identity the peer sends. For IKEv1 site-to-site, a
-   non-IP name is acceptable only with certificate authentication or when the peer uses aggressive
-   mode. Whether the example's tunnel-group line needs a `type` is not stated (unknown).
+   name that is not an IP address is allowed when authentication is by certificate and/or the peer
+   is set to aggressive mode. Whether the example's tunnel-group line needs a `type` is not stated (unknown).
 
 9. **Traffic filtering.** ACLs can be attached to a VTI. Two device-wide commands can alter
    filtering: `sysopt connection permit-vpn` skips ACL evaluation for IPsec traffic, and
@@ -263,7 +269,7 @@ Commands in this file are payload sent through that session, not separate tools.
 - [ ] Proposal, profile (proposal attached), and tunnel interface or virtual template plus tunnel
       group configured, with matching parameters on the peer
 - [ ] Pre-shared key (if any) came from the caller's secret store
-- [ ] Tunnel source is not an address borrowed from another interface
+- [ ] No interface used as an `ip unnumbered` address donor is also a VTI tunnel source
 - [ ] Any MTU disable/enable, interface removal, template change, name reuse, or device-wide
       filtering option was confirmed with the operator first
 - [ ] Tunnel state confirmed from the ASA's own SA/session state (command unknown in this source);
