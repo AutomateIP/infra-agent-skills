@@ -76,9 +76,9 @@ tenant is available (see `endpoints.md` for the header format).
 
 ## Known limitations
 
-- Covers the NPA (`/policy/npa/rules`) family only — Netskope's real-time/CASB inline rules
-  (`/policy/realtime/rules`), internet-access rules (`/policy/internetaccess/rules`), and SaaS
-  Posture Management policies (`/spm/policies`) are separate endpoint families with their own field
+- Covers the NPA (Netskope Private Access) rule family only — Netskope's real-time/CASB inline
+  rules, internet-access rules, and SaaS Posture Management policies are separate endpoint families
+  (their literal routes are listed in `endpoints.md`) with their own field
   shapes, not covered here.
 - Does not cover defining the private application, publisher, or private-app tag objects a rule
   references as their own standalone lifecycle — this procedure assumes they already exist and are

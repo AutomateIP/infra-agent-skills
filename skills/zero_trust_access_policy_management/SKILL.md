@@ -20,6 +20,9 @@ following that platform's own documented procedure, field rules, and ordering/va
   group as a standalone object with no rule, a Netskope private app definition, a ZIA URL category
   definition) unless the platform's own rule-creation procedure requires defining it inline as part
   of the same call — check the vendor's `procedure.md` for where that line falls.
+- Not for network-layer firewall rules (see `firewall_management`) or SaaS/CASB inline data-control
+  policies (see `casb_policy_management`) — this skill covers per-user/group access to URLs, cloud
+  apps, and private application segments on a SASE/ZTNA platform.
 
 ## Universal concepts (apply regardless of platform)
 

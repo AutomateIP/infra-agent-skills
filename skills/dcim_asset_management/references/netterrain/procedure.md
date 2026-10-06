@@ -36,7 +36,7 @@ Sources (see `endpoints.md` for the literal wiring drawn from each):
    write operations, populate it too — that instance has anti-forgery checking turned on
    (`ValidateAntiForgeryToken` in the server's own configuration) and will reject writes missing it.
 2. **Identify the target instance's base path.** Every call is rooted at that instance's own
-   `/wapi/v1/` path — there is no shared/global NetTerrain endpoint. Confirm this base path (and
+   versioned API base path (see `endpoints.md`) — there is no shared/global NetTerrain endpoint. Confirm this base path (and
    whether the deployment sits behind a non-default port or reverse-proxy prefix) before building any
    request.
 3. **Resolve prerequisite type references.** A device cannot be created without a reference (`href`)

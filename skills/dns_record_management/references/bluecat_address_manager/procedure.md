@@ -9,7 +9,7 @@ already available.
 
 **This is a different BlueCat product from `references/bluecat/` (BlueCat Horizon / DDI
 Orchestrator).** Address Manager is Integrity's self-contained, self-hosted DDI engine with its own
-data store and its own REST API surface (`/api/v2`, versioned per Address Manager release). Horizon is
+data store and its own REST API surface (the v2 REST API, versioned per Address Manager release). Horizon is
 a separately-sold, cloud-hosted control plane that sits in front of and governs existing DNS/DHCP/IPAM
 systems (which can include Address Manager itself, Active Directory-integrated DNS, BIND, Kea, or
 cloud-provider DNS) rather than being one of those systems itself — it does not expose the same
@@ -19,7 +19,7 @@ before picking a procedure file; do not assume they're interchangeable.
 Source grounding: BlueCat's own "Address Manager RESTful v2 API Guide" (docs.bluecatnetworks.com,
 retrieved 2026-09-29) plus BlueCat's own published product pages distinguishing Address
 Manager/Integrity from Horizon. Address Manager also ships an interactive Swagger UI on the appliance
-itself (`http(s)://<host>/api/docs`) that documents the live, version-exact endpoint/schema set — treat
+itself (location in `endpoints.md`) that documents the live, version-exact endpoint/schema set — treat
 that as the authoritative source for any field this procedure doesn't cover, since the public docs
 describe the API's shape and conventions rather than every resource's full schema.
 

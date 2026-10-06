@@ -1,6 +1,6 @@
 # Docker Hub — Container Workload Deployment Procedure
 
-Covers Docker Hub's own documented v2 REST API (`hub.docker.com/v2`) for authenticating, creating and
+Covers Docker Hub's own documented v2 REST API (base URL in `endpoints.md`) for authenticating, creating and
 browsing repositories, and reading/listing image tags — the registry *metadata* side of getting an
 image ready to deploy. Source: docs.docker.com "Docker Hub API" reference (`/reference/api/hub`),
 retrieved 2026-09-29.
@@ -106,7 +106,7 @@ internal error.
 
 ## Tools
 
-Every operation maps to the `hub.docker.com/v2` REST API — see `endpoints.md` for literal routes,
+Every operation maps to Docker Hub's v2 REST API — see `endpoints.md` for literal routes,
 request/response fields, and status codes.
 
 | Operation | Description | Category |

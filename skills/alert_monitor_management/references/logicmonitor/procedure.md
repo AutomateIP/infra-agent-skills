@@ -19,7 +19,7 @@ LogicMonitor "6. Understanding LogicMonitor alerts"
 LogicMonitor "Guidelines for Responding to Alerts"
 (https://www.logicmonitor.com/support/alerts/responding-to-alerts/guidelines-for-responding-to-alerts).
 LogicMonitor's own published REST API v3 OpenAPI description was used only to cross-check that the
-`/alert/alerts/{id}/ack` and `/setting/alert/rules` resources named in the prose sources above
+alert-acknowledge and alert-rule resources (literal routes in `endpoints.md`) named in the prose sources above
 still exist and to confirm their required-field shape, never as a wording source.
 
 ## Operational procedure — create a monitor (DataSource + Alert Rule)

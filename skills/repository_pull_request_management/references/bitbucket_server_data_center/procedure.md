@@ -11,13 +11,13 @@ configuration. Assumes an authenticated REST client against the Bitbucket Server
 repository) is already available.
 
 Source: Atlassian's Bitbucket Server REST API reference for the pull-requests resource (documented
-at the stable `/rest/api/1.0/` path; content retrieved from `docs.atlassian.com`'s generated REST
+at the stable 1.0 REST path (see `endpoints.md`); content retrieved from `docs.atlassian.com`'s generated REST
 resource documentation for this resource, retrieved 2026-09-29 — this is the same resource shape
 Atlassian's newer per-version `developer.atlassian.com/server/bitbucket/rest/` pages describe; the
 version-numbered documentation page retrieved did not correspond to the very latest release line, but
-the `/rest/api/1.0/pull-requests` resource and its required-`version` concurrency model have been
+the pull-requests resource and its required-`version` concurrency model have been
 stable across the Server/Data Center REST API's documented history — verify against the target
-instance's own `/rest/api/1.0/` if it exposes interactive API documentation, since an installation
+instance's own REST path if it exposes interactive API documentation, since an installation
 could be running an older release with a narrower field set).
 
 ## Operational procedure
@@ -92,8 +92,8 @@ could be running an older release with a narrower field set).
   parity with another platform's strategy names.
 - The retrieved documentation corresponds to an older but structurally stable release line of the
   Server REST API reference generator; a specific target instance's actual installed version may
-  expose additional fields or a differently-numbered path (`/rest/api/latest/` is documented elsewhere
-  as an alias some instances also expose) — confirm the exact base path against the target instance.
+  expose additional fields or a differently-numbered path (a `latest` alias for the version segment is documented elsewhere
+  and some instances also expose it; see `endpoints.md`) — confirm the exact base path against the target instance.
 - The source does not document a fixed catalog of error strings for every validation failure beyond
   the general conflict/malformed-request status codes; step 11 exists because of this.
 

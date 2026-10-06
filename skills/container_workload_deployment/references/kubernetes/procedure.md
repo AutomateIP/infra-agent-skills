@@ -62,7 +62,7 @@ is expected soon, since it's needed for optimistic-concurrency checks.
 ### 4. Confirm the create/rollout by watching status, not just the create response
 
 A `201`/`200` response only means the API server accepted and persisted the object — it does not mean
-pods are running yet. Poll the Deployment (or its `/status` subresource) and evaluate:
+pods are running yet. Poll the Deployment (or its status subresource; literal path in `endpoints.md`) and evaluate:
 - `status.observedGeneration` vs `metadata.generation` — until these match, the controller hasn't
   finished reconciling the latest spec change; anything read before that point may be stale.
 - `status.conditions[]` — look for an entry with `type: Progressing` and `reason:

@@ -5,7 +5,7 @@ plus wire-level `endpoints.md`.
 
 | Vendor / Platform | Directory | Scope | Notes |
 |---|---|---|---|
-| Salesforce | `salesforce/` | Create/read/update/delete a Contact record via the generic REST `sobjects` resource | Only `LastName` is structurally required; org-layered validation rules can add more. Account records not yet covered. |
+| Salesforce | `salesforce/` | Create/read/update/delete a Contact record via the generic REST `sobjects` resource | Only `LastName` is structurally required; org-layered validation rules can add more. Contact-only skill; account records are out of scope. |
 
 ## Adding a new vendor
 

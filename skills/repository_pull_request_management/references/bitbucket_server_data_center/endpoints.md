@@ -6,7 +6,9 @@ client/adapter is assumed available.
 Source: Atlassian's Bitbucket Server REST API reference for the pull-requests resource, retrieved via
 `docs.atlassian.com`'s generated REST resource documentation, retrieved 2026-09-29. See
 `procedure.md`'s sources note on version-line coverage — confirm the target instance's exact base path
-before relying on this verbatim.
+before relying on this verbatim. Some instances also expose a `latest` alias in place of `1.0` in
+the version segment of the paths below (`/rest/api/latest/...`); this is documented elsewhere, not
+confirmed for every release.
 
 ## List / create pull requests
 
