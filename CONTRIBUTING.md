@@ -15,6 +15,7 @@ guidelines and instructions for contributing to this project.
 - [Repository Structure](#repository-structure)
 - [Contributing Process](#contributing-process)
 - [Pull Request Guidelines](#pull-request-guidelines)
+- [Maintainer Fix-ups](#maintainer-fix-ups)
 - [Pull Request Labels](#pull-request-labels)
 - [Reporting Issues](#reporting-issues)
 - [Getting Help](#getting-help)
@@ -58,6 +59,17 @@ git config --global commit.gpgsign true
 Then add the same key as a **signing key** in your GitHub account settings — this is separate from
 registering it as an authentication key. GPG signing is also supported if you prefer it. After
 setup, new commits show as Verified once the key is registered.
+
+If a branch already has unsigned commits, you can sign them after the fact by re-signing each
+commit on top of `main` and then updating your branch:
+
+```bash
+git rebase --exec 'git commit --amend --no-edit -S' main
+git push --force-with-lease
+```
+
+This rewrites the branch's history, so only do it on a branch you own, and before others have
+based work on it.
 
 ## Repository Structure
 
@@ -137,8 +149,22 @@ Your pull request should include:
 3. **References to related issues** (if applicable)
 4. **Any corrections to shared "universal concepts"** — called out explicitly, not folded silently
    into a vendor's own file
+5. **Every secondary source used** (anything other than the vendor's own approved documentation),
+   and any explicit scope decisions (what you deliberately left out and why)
+6. **Counts that match** — the number of capabilities and vendors named in the title and body must
+   agree with the diff and with the README's "Current Skills" table
 
 Use the [PR template](.github/PULL_REQUEST_TEMPLATE.md) — it already reflects this structure.
+
+### Maintainer Fix-ups
+
+If a contribution stalls after review — for example, the contributor is unresponsive and only small
+corrections remain — a maintainer may push additive fix-up commits to the contributor's branch,
+provided the branch is in this repository. Fix-ups are plain new commits on top of the existing
+ones: no rebase and no force-push, so the contributor's history and authorship are preserved.
+
+Changes authored by an agent on a PR branch are treated the same as any other change: they still
+require a human approval and a human merge.
 
 ## Pull Request Labels
 

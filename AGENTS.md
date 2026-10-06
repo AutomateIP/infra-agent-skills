@@ -73,6 +73,15 @@ under `references/<vendor>/`, or correcting existing content.
   that doesn't apply, an inconsistent worked example) — flag it and follow the source's stated
   rule instead of reproducing the defect. This is expected to happen as more vendors are added; it
   is not a sign something went wrong.
+- If the primary source can't be fetched or verified — rate limits, quotas, timeouts, and other
+  operational behavior the vendor doesn't document are the usual cases — state the fact in the
+  file as unknown or unverified, and tell the executor how to react safely (e.g. "back off on an
+  HTTP 429 and honor any `Retry-After` header"). Never present figures that came from search
+  aggregation, forums, or secondary summaries as established fact.
+- Any detail you had to assume rather than read from the source (e.g. a path prefix inferred from
+  a sibling endpoint, a field name inferred from a similar call) must be marked as an assumption
+  inside the file itself, next to the detail — not only in the PR description or your research
+  notes.
 
 ### 2. `SKILL.md` frontmatter and shape
 
@@ -99,6 +108,10 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   typically has no destructive-action confirmation gates (rule 7) since reading state doesn't
   change anything. Note in that skill's own `SKILL.md` *why* it's diagnostic-shaped (a
   self-contained explanation, not a pointer to another skill file for the reasoning — see rule 11).
+- **Scope must read the same everywhere.** The `argument-hint`, `description`, "When to use this
+  skill," the body, `references/INDEX.md`, and the root README's "Current Skills" row must all
+  describe the same scope. If one says a skill covers create and update, none of the others may
+  imply read-only, or omit a vendor or operation the rest list.
 
 ### 3. Multi-vendor skills route, they don't inline
 
@@ -138,6 +151,12 @@ vendor addition can silently invalidate. When adding a new vendor:
   which has RFC 1035/2136/1123) — say so plainly in `SKILL.md` rather than implying a
   standardization that doesn't exist, and hedge shared claims accordingly ("where the platform
   provides one," "where documented") rather than stating them as guaranteed.
+- "Universal concepts" holds only what is true across **every** vendor listed. Vendor wire detail —
+  field names, path parameters, schema citations, vendor-specific limits — belongs in that
+  vendor's own `procedure.md`/`endpoints.md`, even if only one vendor is listed today. For example,
+  "records have a type and a time-to-live" is universal; "the type is sent in a field named
+  `rrtype` and the record ID goes in the URL path" is one vendor's wiring and goes under
+  `references/<vendor>/`.
 
 ### 5. `SKILL.md` stability rule (the actual point of this structure)
 
@@ -164,6 +183,11 @@ the PR description must say explicitly which of the two allowed reasons applies.
 - Every documented error condition gets plain-language handling inline; if the source gives an
   exact error string worth pattern-matching on, put the literal string in `endpoints.md` and refer
   to it by name from the procedure step.
+- Base-URL literals are wiring too: they live only in `endpoints.md`, never in `procedure.md`
+  prose.
+- Every pointer of the form "see X" or "listed in X" must resolve to content that actually exists
+  in X. Re-check each one after moving content between files — a pointer to a table, section, or
+  error name that is no longer there leaves the executor with nothing to follow.
 
 ### 7. Confirmation gates on anything destructive or hard to reverse
 
@@ -277,9 +301,15 @@ Before opening a PR, or before approving one, confirm:
       naming convention (rule 8) — no generic `endpoints.md` that could collide with a future
       addition.
 - [ ] `references/INDEX.md` for the affected skill lists the new/changed entry.
+- [ ] `argument-hint`, `description`, "When to use," body, `INDEX.md`, and the README row all
+      describe the same scope (rule 2).
+- [ ] Every "see X" / "listed in X" pointer resolves to content that exists in X, and every
+      assumed or unverified detail is marked as such in the file itself (rules 1 and 6).
 - [ ] If this PR adds a new top-level capability, or adds/removes a vendor from an existing one,
       the root [`README.md`](README.md)'s "Current Skills" table is updated to match — a PR that
       changes what's covered without updating that table leaves the repo's own front door stale.
+- [ ] The PR body lists every secondary source used, states any explicit scope decisions, and its
+      counts of capabilities and vendors match both the diff and the README table.
 - [ ] `SKILL.md` is comfortably under the token/line budget (rule 9) — checked with `wc`, not
       eyeballed.
 - [ ] No real credentials, tokens, or customer-identifying values anywhere in the diff.
