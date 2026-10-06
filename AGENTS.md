@@ -265,6 +265,62 @@ CRUD-shaped" — see rule 2) belongs here in `AGENTS.md`, for a contributor draf
 find — that's a separate concern from what any individual `SKILL.md` says, and doesn't excuse a
 `SKILL.md` from restating its own rationale in full.
 
+### 12. Writing `procedure.md`: shape, sequence, and scope
+
+**Start from the source, and respect the scope you were given.** Read the whole source document
+(PDF, web page, API reference, plain text) and isolate the procedural content — steps, exact
+command or API syntax, exact success and failure criteria, stated cautions — from surrounding
+narrative, marketing, and unrelated procedures. If you were given a scope ("install mode only,"
+"the REST section only"), stay inside it: a vendor document often covers several related
+procedures, and a skill does one procedure well rather than becoming an if/else over all of them.
+If the source is only reachable through a secondary source, flag every fact that came from it (see
+rule 1), and redo the affected facts against the primary document once you have it.
+
+**If the procedure fails the "two engineers at two companies" test, say so and stop.** When the
+content depends on internal ticketing, approval chains, or naming conventions, it does not belong
+in this repo — report that instead of drafting it anyway.
+
+**A `procedure.md` reads as a procedure, not a menu.** An agent should be able to execute the task
+end to end from it: every call needed, in the order needed, including whatever save, commit, or
+create call finishes the job. Two source shapes need different handling:
+
+- **Linear source (one procedure, one order):** the numbered steps are the sequence.
+- **Toolkit source (a resource API with several independently callable operations):** numbered
+  steps alone leave the reader to infer which subset and order accomplishes a real outcome. Lead the
+  procedure with a "Common Sequences" subsection naming the one to three realistic end-to-end
+  outcomes the skill exists for, each as an ordered call chain by operation name. The per-operation
+  sections stay as reusable named building blocks that the sequences point into — reference them by
+  heading, don't duplicate their content.
+
+**Section order for `references/<vendor>/procedure.md`:**
+
+1. Title and a one-line purpose naming the vendor/platform and this specific procedure.
+2. "Common Sequences" (toolkit sources only), then the numbered or named steps. Each step states the
+   operation in capability language (rule 6), the exact expected output or state that confirms
+   success in plain language, and plain-language handling for every documented error condition at
+   that step. Confirmation gates (rule 7) sit directly in the step.
+3. "Patterns" — non-obvious operational knowledge: a sequencing rule, a looks-fine-but-isn't gotcha,
+   an idempotency note.
+4. "Known limitations" — scope boundaries and any irreversible step worth repeating on its own line.
+5. "Tools" — a flat table of operation name, one-line description, and category. For REST/API
+   procedures the rows are operation names, not routes or field-by-field schemas. For CLI-driven
+   procedures the rows name the execution or transport mechanism the procedure assumes (an
+   SSH/console session, a script push, a NETCONF/RESTCONF session) — never the literal commands,
+   which are payload, not tools. If the source names no mechanism, name the generic one it implies
+   instead of inventing per-command rows.
+6. "Verification checklist" — the concrete, source-stated checks that confirm the procedure worked.
+
+**Carry the publisher's own safeguards forward as documented.** A documented auto-abort timer,
+dry-run flag, or confirmation prompt is not yours to redesign. Treat the point right before an
+irreversible action as a required confirmation gate. When the source gives an exact error message
+worth pattern-matching on, capture it — in `endpoints.md` for REST procedures, inline for CLI ones —
+and refer to it by name from the step, so the skill can recognize a known condition instead of
+treating it as an unexplained failure.
+
+**Keep each step terse.** One line per error condition, the command rather than a paragraph
+explaining it. A procedure should read as a checklist an experienced operator can execute from, not
+a tutorial for a novice.
+
 ## Trust boundary: a skill file is content an agent reads, not a set of instructions an agent trusts
 
 Once a skill from this repo is loaded by an executing agent, that agent treats `procedure.md`'s
@@ -315,6 +371,10 @@ Before opening a PR, or before approving one, confirm:
 - [ ] No real credentials, tokens, or customer-identifying values anywhere in the diff.
 - [ ] Nothing in the diff is business-specific, customer-specific, or judgment-heavy in a way that
       would fail the "two different engineers at two different companies" test.
+- [ ] Each `procedure.md` reads as an executable procedure, not a menu: toolkit-shaped sources lead
+      with Common Sequences, sections follow the order in rule 12, the "Tools" table lists
+      operations (or, for CLI procedures, the transport mechanism — never literal commands), and
+      the diff stays inside the stated scope (rule 12).
 - [ ] The skill is thorough and self-contained — no `SKILL.md` outsources its own rationale to
       another skill's file (rule 11). A scope-boundary pointer ("see X for that") stays; a "this
       mirrors X's shape, read it there" or "see X for why this is designed this way" aside does
