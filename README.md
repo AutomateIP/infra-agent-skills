@@ -55,7 +55,8 @@ one vendor's behavior from ever touching the shared file.
 
 | Skill | Vendors covered |
 |---|---|
-| `dns_record_management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, PowerDNS |
+| `alert_monitor_management` | Datadog, New Relic, LogicMonitor, Paessler PRTG |
+| `dns_record_management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS |
 | `dns_zone_management` | Route 53, Cloudflare, PowerDNS |
 | `change_management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
 | `software_upgrade_lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux |
@@ -70,11 +71,16 @@ one vendor's behavior from ever touching the shared file.
 | `vpn_tunnel_management` | strongSwan, Palo Alto PAN-OS, Juniper SRX |
 | `routing_troubleshooting` | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
 | `interface_link_troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
+| `vulnerability_lookup` | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
 | `casb_policy_management` | _(scaffolded — no vendor coverage yet)_ |
 | `casb_posture_assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
-| `crm_contact_management` | _(scaffolded — no vendor coverage yet)_ |
-| `dcim_asset_management` | _(scaffolded — no vendor coverage yet)_ |
-| `notifications` | _(scaffolded — no vendor coverage yet; Slack, MS Teams, Mattermost, email planned)_ |
+| `crm_contact_management` | Salesforce |
+| `dcim_asset_management` | NetTerrain (Graphical Networks) |
+| `notifications` | Slack, Cisco Webex, Microsoft Teams |
+| `secret_retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
+| `repository_pull_request_management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
+| `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
+| `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

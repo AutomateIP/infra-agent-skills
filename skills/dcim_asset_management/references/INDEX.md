@@ -5,7 +5,7 @@ plus wire-level `endpoints.md`.
 
 | Vendor / Platform | Directory | Scope | Notes |
 |---|---|---|---|
-| _(none yet)_ | | | |
+| NetTerrain (Graphical Networks) | `netterrain/` | Create/read/update/delete a device asset, including rack-unit mount and dismount; create/read/update/delete a rack container | WAPI v1 REST interface; bearer-token auth required for writes, basic auth is vendor-restricted to read-only calls; device/rack records are typed specializations of a broader generic "node" object |
 
 ## Adding a new vendor
 

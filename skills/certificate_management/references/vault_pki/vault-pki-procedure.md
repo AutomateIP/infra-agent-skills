@@ -7,7 +7,7 @@ paths) and a PKI secrets engine already enabled and configured with at least one
 intermediate CA) and at least one role are already in place — this procedure does not cover enabling
 the engine or generating its root/intermediate CA material. See `vault-pki-endpoints.md` for the
 literal request paths and fields behind every operation below. Citation: HashiCorp Vault API
-documentation, "PKI Secrets Engine (API)," retrieved 2026-09-17
+documentation, "PKI Secrets Engine (API)," retrieved 2026-09-17, spot-checked again 2026-09-29
 (https://developer.hashicorp.com/vault/api-docs/secret/pki).
 
 ## Operational procedure

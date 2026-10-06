@@ -1,6 +1,6 @@
 ---
 name: dns_record_management
-description: Create, update, or delete a DNS record (A, AAAA, CNAME, MX, TXT, NS, SOA, PTR, SRV, CAA) on a supported DNS platform — AWS Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon/DDI Orchestrator, or PowerDNS Authoritative Server — following RFC 1035/2136/1123 record semantics plus each platform's own documented procedure and restrictions. Use when a DNS record needs to be created, changed, or removed on one of the supported platforms. Assumes an authenticated API/WAPI client for the target platform is already available; this skill does not provision or authenticate that client. Does not cover DNS zone creation/deletion (see dns_zone_management), alias/traffic-routing record types (Route 53 alias records, Azure targetResource), creating DNSSEC record types directly (DS/DNSKEY), or NetBox IPAM (a separate capability — see references/INDEX.md). DNSSEC-related post-change housekeeping a platform requires (e.g. PowerDNS zone rectification) is in scope where that platform's own procedure documents it.
+description: Create, update, or delete a DNS record (A, AAAA, CNAME, MX, TXT, NS, SOA, PTR, SRV, CAA) on a supported DNS platform — AWS Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon/DDI Orchestrator, BlueCat Address Manager, or PowerDNS Authoritative Server — following RFC 1035/2136/1123 record semantics plus each platform's own documented procedure and restrictions. Use when a DNS record needs to be created, changed, or removed on one of the supported platforms. Assumes an authenticated API/WAPI client for the target platform is already available; this skill does not provision or authenticate that client. Does not cover DNS zone creation/deletion (see dns_zone_management), alias/traffic-routing record types (Route 53 alias records, Azure targetResource), creating DNSSEC record types directly (DS/DNSKEY), or NetBox IPAM (a separate capability — see references/INDEX.md). DNSSEC-related post-change housekeeping a platform requires (e.g. PowerDNS zone rectification) is in scope where that platform's own procedure documents it.
 argument-hint: "[platform] [action] [record_name] [record_type] [values...]"
 ---
 
@@ -13,7 +13,8 @@ procedure, field rules, and restrictions (`references/<platform>/procedure.md`).
 ## When to use this skill
 
 - A DNS record (A/AAAA/CNAME/MX/TXT/NS/SOA/PTR/SRV/CAA) needs to be created, updated, or deleted on
-  Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat, or PowerDNS.
+  Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon/DDI Orchestrator, BlueCat Address
+  Manager, or PowerDNS.
 - Not for creating the zone itself — see `dns_zone_management` for zone creation, SOA/NS
   configuration, and subdomain delegation. Also not for alias/traffic-routing record types, creating
   DNSSEC record types directly, or IP address space allocation (that's IPAM, not DNS record
@@ -58,7 +59,7 @@ are RFC-derived vs. platform-specific).
   rectification) is in scope, since it's a documented follow-up step to a record change, not a record
   type being created.
 - Does not cover NetBox or other IPAM (IP address space allocation) — see `references/INDEX.md`.
-- Platform coverage is exactly the six vendors in `references/INDEX.md` — a platform not listed there
+- Platform coverage is exactly the seven vendors in `references/INDEX.md` — a platform not listed there
   needs a new `references/<platform>/procedure.md` before this skill can be used for it (see that file's
   "Adding a new vendor" section).
 
