@@ -98,3 +98,12 @@ Private applications, publishers, private-app tags, and user groups each have th
 endpoints elsewhere in Netskope's REST API v2 (outside this rule family) — resolve caller-supplied
 names against those before building `rule_data`; this procedure does not restate each one's own wire
 format since they sit outside the NPA policy-rule endpoint itself.
+
+## Out-of-scope route families (not covered by this skill)
+
+These are separate Netskope policy families with their own field shapes; listed only so a caller can
+recognize them and not confuse them with the NPA rule endpoints above:
+
+- `/api/v2/policy/realtime/rules` — real-time (CASB inline) rules
+- `/api/v2/policy/internetaccess/rules` — internet-access rules
+- `/api/v2/spm/policies` — SaaS Posture Management policies

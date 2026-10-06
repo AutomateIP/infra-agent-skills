@@ -68,8 +68,7 @@ cross-checked against another current Salesforce-authored page before being trea
 
 ## Known limitations
 
-- Covers Contact only — Account and any other standard/custom object are out of scope for this file
-  (see `SKILL.md`'s own known-limitations note on Account coverage).
+- Covers Contact only — Account and any other standard/custom object are out of scope for this skill.
 - Does not cover upsert-by-external-ID, the Bulk API for batch operations, or SOQL/SOSL query — only
   the four single-record CRUD calls against the generic `sobjects/Contact` resource.
 - Does not cover obtaining, refreshing, or revoking the OAuth access token itself — this procedure
