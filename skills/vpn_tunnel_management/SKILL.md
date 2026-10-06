@@ -1,6 +1,6 @@
 ---
 name: vpn_tunnel_management
-description: Create, read, update, and delete site-to-site VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters, tunnel interfaces) on strongSwan, Palo Alto Networks PAN-OS, or Juniper SRX (Junos OS). Does not yet cover remote-access VPN profiles or any other platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. See references/INDEX.md for per-platform scope.
+description: Create, read, update, and delete site-to-site VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters, tunnel interfaces) on strongSwan, Palo Alto Networks PAN-OS, or Juniper SRX (Junos OS), and create route-based IPsec VPN tunnels (static or dynamic Virtual Tunnel Interface) on Cisco ASA (create/configure only on ASA; no documented read, update, or delete there). Does not yet cover remote-access VPN profiles or any other platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. See references/INDEX.md for per-platform scope.
 argument-hint: "[platform] [action: create_tunnel|read_tunnel|update_tunnel|delete_tunnel] [tunnel identifier, fields]"
 ---
 
@@ -12,8 +12,9 @@ following that platform's own documented procedure exactly.
 ## When to use this skill
 
 - Creating, reading, updating, or deleting a site-to-site tunnel (IPsec/IKE phase 1 and phase 2
-  parameters, tunnel interface) on a supported platform. Remote-access VPN profiles are not yet
-  covered by any listed platform — see Known limitations.
+  parameters, tunnel interface) on a supported platform. On Cisco ASA, only creating a route-based
+  VTI tunnel (static or dynamic) is covered. Remote-access VPN profiles are not yet covered by any
+  listed platform — see Known limitations.
 
 ## Universal concepts (shared VPN vocabulary — verified across strongSwan, PAN-OS, and Juniper SRX)
 
@@ -65,8 +66,8 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Covers strongSwan, Palo Alto Networks PAN-OS, and Juniper SRX (Junos OS) only — see
-  `references/INDEX.md`. A platform not listed there needs a new reference file before this skill
+- Covers strongSwan, Palo Alto Networks PAN-OS, Juniper SRX (Junos OS), and Cisco ASA (VTI creation
+  only) only — see `references/INDEX.md`. A platform not listed there needs a new reference file before this skill
   can be used for it.
 - Remote-access VPN profiles (GlobalProtect, IKEv2/EAP or XAuth-based remote access, etc.) are not
   covered by any platform currently listed — every reference file here is site-to-site only.
