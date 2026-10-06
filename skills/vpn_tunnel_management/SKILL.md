@@ -1,7 +1,7 @@
 ---
 name: vpn_tunnel_management
 description: Create, read, update, and delete site-to-site VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters, tunnel interfaces) on strongSwan, Palo Alto Networks PAN-OS, or Juniper SRX (Junos OS), and create route-based IPsec VPN tunnels (static or dynamic Virtual Tunnel Interface) on Cisco ASA (create/configure only on ASA; no documented read, update, or delete there). Does not yet cover remote-access VPN profiles or any other platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. See references/INDEX.md for per-platform scope.
-argument-hint: "[platform] [action: create_tunnel|read_tunnel|update_tunnel|delete_tunnel] [tunnel identifier, fields]"
+argument-hint: "[platform] [action: create_tunnel|read_tunnel|update_tunnel|delete_tunnel; Cisco ASA: create_tunnel only] [tunnel identifier, fields]"
 ---
 
 # VPN Tunnel Management
@@ -18,24 +18,27 @@ following that platform's own documented procedure exactly.
 
 ## Universal concepts (shared VPN vocabulary — verified across strongSwan, PAN-OS, and Juniper SRX)
 
-- **Every listed platform negotiates in two stages**, though the exact labels vary: an IKE-level
+- **The platforms checked (strongSwan, PAN-OS, Juniper SRX) negotiate in two stages**, though the exact labels vary: an IKE-level
   exchange that authenticates the peers and establishes a secure channel (phase 1 / an IKE_SA), and
   a second exchange that negotiates the actual IPsec traffic-protection parameters (phase 2 / a
   CHILD_SA). PAN-OS and Juniper's own documentation use "Phase 1"/"Phase 2" terminology directly;
   strongSwan's documentation and tooling use the RFC 7296 terms IKE_SA/CHILD_SA for the same
   two-stage structure. Treat these as the same underlying concept when translating between a
-  platform that says "phase 2" and one that says "CHILD_SA."
-- **A committed/loaded configuration is not the same fact as an established tunnel**, on every
-  platform checked. Each vendor's own procedure file distinguishes a configuration-level success
+  platform that says "phase 2" and one that says "CHILD_SA." The Cisco ASA VTI source refers only to
+  IKE and IPsec security associations without phase labels; it does not contradict the two-stage
+  structure but does not spell it out either.
+- **A committed/loaded configuration is not the same fact as an established tunnel**, on the
+  platforms checked. Each of those vendors' procedure files distinguishes a configuration-level success
   (commit accepted, `swanctl --load-all` succeeded, `commit` succeeded) from live negotiated state,
-  and each has its own separate state-inspection command for the latter (PAN-OS: `show vpn ike-sa`/
+  and, where the vendor documents one, has its own separate state-inspection command for the latter (PAN-OS: `show vpn ike-sa`/
   `show vpn ipsec-sa`; Juniper: `show security ike security-associations`/`show security ipsec
-  security-associations`; strongSwan: `swanctl --list-sas`). Never report a tunnel as up from
+  security-associations`; strongSwan: `swanctl --list-sas`; the Cisco ASA VTI source documents none, so its procedure leaves that command unknown). Never report a tunnel as up from
   configuration/commit success alone — confirm with the platform's own state command.
-- **Tearing down or deleting a live tunnel/gateway/SA is disruptive on every platform checked** — it
-  drops in-flight traffic through that tunnel. Every vendor file in this skill gates its
-  delete/clear/terminate operations behind an explicit operator-confirmation step for this reason
-  (see AGENTS.md rule 7); this is confirmed common ground, not a per-vendor guess.
+- **Tearing down or deleting a live tunnel/gateway/SA is disruptive on the platforms checked** — it
+  drops in-flight traffic through that tunnel. Each vendor file that documents delete/clear/terminate
+  operations gates them behind an explicit operator-confirmation step for this reason
+  (see AGENTS.md rule 7). The Cisco ASA source documents no delete operation; it gates its other
+  disruptive actions the same way.
 - **Do not assume a specific proposal/algorithm-naming convention, DH-group numbering, or default
   lifetime value is common across platforms.** All three platforms researched for this skill use
   different exact keyword sets for the same underlying algorithms (e.g. PAN-OS's `aes-256-gcm`
@@ -67,8 +70,8 @@ implements this shape concretely.
 ## Known limitations
 
 - Covers strongSwan, Palo Alto Networks PAN-OS, Juniper SRX (Junos OS), and Cisco ASA (VTI creation
-  only) only — see `references/INDEX.md`. A platform not listed there needs a new reference file before this skill
-  can be used for it.
+  only) only — see `references/INDEX.md`. A platform not listed there needs a new reference file
+  before this skill can be used for it.
 - Remote-access VPN profiles (GlobalProtect, IKEv2/EAP or XAuth-based remote access, etc.) are not
   covered by any platform currently listed — every reference file here is site-to-site only.
 - Does not cover firewall rules permitting the tunnel's traffic — see `firewall_management` for that;
