@@ -68,7 +68,7 @@ one vendor's behavior from ever touching the shared file.
 | `waf_management` | _(scaffolded — no vendor coverage yet)_ |
 | `load_balancing` | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy |
 | `certificate_management` | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager |
-| `vpn_tunnel_management` | strongSwan, Palo Alto PAN-OS, Juniper SRX |
+| `vpn_tunnel_management` | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)* |
 | `routing_troubleshooting` | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
 | `interface_link_troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
 | `vulnerability_lookup` | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
