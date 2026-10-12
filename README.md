@@ -40,6 +40,11 @@ skills/<capability>/
       endpoints.md                 # literal wire-level calls
 ```
 
+Capability, `name`, and vendor/tool directories are lowercase snake_case, and a capability is named
+for the operation rather than a tool. A vendor can be a platform's API, a CLI/SDK framework, or an MCP
+server, as long as the operation is a real infrastructure process and the router stays tool-neutral
+— see [AGENTS.md](AGENTS.md) rules 13 and 14.
+
 For a large permutation space (e.g. software upgrades, where one vendor spans several platform
 families and install modes), the same shape holds one level deeper:
 `references/<vendor>/<platform-family>.md` — grouped by platform family/version line, not by every
@@ -76,26 +81,15 @@ one vendor's behavior from ever touching the shared file.
 | `casb_posture_assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
 | `crm_contact_management` | Salesforce |
 | `dcim_asset_management` | NetTerrain (Graphical Networks) |
-| `notifications` | Slack, Cisco Webex (including requested pyATS result reports), Microsoft Teams |
+| `notifications` | Slack, Cisco Webex, Microsoft Teams |
 | `secret_retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
 | `repository_pull_request_management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
-| `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub, Cisco pyATS (published Docker image and existing test-job execution) |
+| `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
-| `testbed-management` | Cisco pyATS (create/validate YAML and in-memory topology objects) |
-| `credential-encoding` | Cisco pyATS (Fernet secret strings and runtime credential markup) |
-| `network-state-collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
-| `device-cli-execution` | Cisco pyATS / Unicon (approved command execution and configuration transport) |
-| `parallel-task-execution` | Cisco pyATS (independent callable execution and ordered results) |
-| `network-test-execution` | Cisco pyATS (AEtest, Blitz, Robot Framework, Genie harness, integrated Health Check), Cisco XPRESSO (single registered job requests) |
-| `device-reprovisioning` | Cisco pyATS Clean (validate/run approved platform-specific Clean definitions) |
-| `device-session-recording` | Cisco pyATS / Unicon (record, replay, convert to mock CLI) |
-| `device-api-connection` | Cisco pyATS REST connector (DNAC read-session lifecycle only) |
-| `container-image-build` | Cisco pyATS Image Builder (build and inspect local test images) |
+| `network_state_collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
+| `network_health_verification` | Cisco pyATS (Health Check, integrated job mode) |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
-
-The [pyATS adaptation map](docs/pyats-adaptation.md) records source-topic destinations,
-verified corrections, and explicit scope boundaries.
 
 ## 🔧 Installation
 
