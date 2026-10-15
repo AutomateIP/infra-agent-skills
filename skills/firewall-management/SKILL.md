@@ -1,6 +1,6 @@
 ---
 name: firewall-management
-description: Create, read, update, and delete firewall security policy objects (rules, address/service objects, NAT rules) on a supported firewall platform — currently Palo Alto Networks PAN-OS/Panorama (REST API), Fortinet FortiOS/FortiGate (CLI), and Cisco ASA (CLI, with limited confirmed REST coverage). Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. Does not cover Cisco FTD/FMC (not yet researched).
+description: Create, read, update, and delete firewall security policy objects (rules, address/service objects, NAT rules) on a supported firewall platform — currently Palo Alto Networks PAN-OS/Panorama (REST API), Fortinet FortiOS/FortiGate (CLI), Cisco ASA (CLI, with limited confirmed REST coverage), and Juniper SRX/Junos OS (CLI). Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. Does not cover Cisco FTD/FMC (not yet researched).
 argument-hint: "[platform] [action: create_rule|read_rule|update_rule|delete_rule|create_object] [rule/object identifier, fields]"
 ---
 
@@ -20,33 +20,36 @@ firewall platform the caller is targeting, following that platform's own documen
 ## Universal concepts (shared firewall vocabulary, not a wire standard)
 
 There is no wire-level standard behind firewall rule/object management the way DNS has RFC 1035 —
-every claim below was checked against all three vendors currently listed in `references/INDEX.md`
-(PAN-OS, FortiOS, Cisco ASA) and holds for all three; it is not assumed to extend automatically to a
-platform not yet added.
+every claim below was checked against all four vendors currently listed in `references/INDEX.md`
+(PAN-OS, FortiOS, Cisco ASA, Juniper SRX) and holds for all four; it is not assumed to extend
+automatically to a platform not yet added.
 
 - **A rule matches traffic by referencing named objects (addresses, and where the platform defines
-  them, services), rather than embedding raw values inline.** All three vendors listed model an
+  them, services), rather than embedding raw values inline.** All four vendors listed model an
   address as its own named object that a rule then references by name — read or confirm an
   object's current definition separately from reading the rule that references it.
 - **Deleting an object or rule that something else still depends on is not something to assume the
-  platform blocks for you.** None of the three vendors' procedures in this skill found a platform-
-  enforced reference check preventing deletion of an in-use address object, service object, or rule
-  (one vendor's docs, ASA, explicitly note this for network-service objects specifically) — treat
-  "check for existing references before deleting" as this skill's own discipline in every vendor
-  procedure, not a safety net the platform itself is confirmed to provide.
+  platform blocks for you.** Enforcement varies and is partial at best. PAN-OS, FortiOS, and Cisco ASA
+  procedures found no platform-enforced reference check preventing deletion of an in-use address
+  object, service object, or rule (ASA's docs explicitly note this for network-service objects).
+  Juniper SRX documents some commit-time enforcement for specific cases only (see its procedure and
+  the INDEX note). Treat "check for existing references before deleting" as this skill's own
+  discipline in every vendor procedure, not a safety net the platform itself is confirmed to provide.
 - **How a write becomes "live" varies by vendor and is not safe to assume uniform.** PAN-OS has a
   documented two-stage candidate/commit model where nothing takes effect until a separate commit
-  step. Cisco ASA's REST API is documented as writing only to the running configuration, requiring
-  a separate persist step to survive a reload. Whether FortiOS's and ASA's CLI writes apply
-  immediately to the running configuration was not independently confirmed for either during this
-  round of research. Don't assume "the write call returned success" means "this is now enforced" —
-  check each vendor's own procedure for what apply/commit/persist step (if any) it requires.
+  step, and Juniper SRX has the same candidate/commit shape. Cisco ASA's REST API is documented as
+  writing only to the running configuration, requiring a separate persist step to survive a reload.
+  Whether FortiOS's and ASA's CLI writes apply immediately to the running configuration was not
+  independently confirmed for either during this round of research. Don't assume "the write call
+  returned success" means "this is now enforced" — check each vendor's own procedure for what
+  apply/commit/persist step (if any) it requires.
 - **NAT is not modeled the same way across vendors — don't assume a shared shape.** PAN-OS treats
   NAT rules as their own separate rule family (parallel to security rules); FortiOS's VIP table
   covers destination NAT specifically, separate from its firewall-policy table and from source NAT
   (configured differently, at the policy level); Cisco ASA nests static/auto NAT as a subcommand
-  inside the network object it translates, not as an independent rule list. Confirm the target
-  vendor's own NAT model before assuming any of these shapes carries over to another platform.
+  inside the network object it translates, not as an independent rule list; Juniper SRX keeps NAT in
+  its own rule sets, separate from security policies. Confirm the target vendor's own NAT model
+  before assuming any of these shapes carries over to another platform.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -63,9 +66,9 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Covers PAN-OS/Panorama, FortiOS/FortiGate, and Cisco ASA only — see `references/INDEX.md` for
-  exactly what's confirmed for each. A platform not listed there (including Cisco FTD/FMC) needs a
-  new reference file before this skill can be used for it.
+- Covers PAN-OS/Panorama, FortiOS/FortiGate, Cisco ASA, and Juniper SRX only — see
+  `references/INDEX.md` for exactly what's confirmed for each. A platform not listed there (including
+  Cisco FTD/FMC) needs a new reference file before this skill can be used for it.
 - Each vendor file also carries its own gaps (e.g. PAN-OS's NAT-rule REST path, FortiOS's REST API
   surface, ASA's FTD/FMC distinction) — check that vendor's own Known limitations before assuming
   full coverage of every operation named in this skill's description.
