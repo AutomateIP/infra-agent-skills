@@ -1,6 +1,6 @@
 ---
 name: cmdb-asset-management
-description: Create, read, update, and delete Configuration Items (CIs) in a CMDB/asset-management platform, and read relationships between them — currently ServiceNow (Table API + CMDB Instance API, the latter routed through Identification and Reconciliation for deduplication). Use when an agent needs to manage inventory/asset records themselves, distinct from change requests, tickets, or DNS/IPAM records that reference those assets. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Does not cover discovery/service-mapping configuration, CI class schema administration, or writing new relationship records.
+description: Create, read, update, and delete Configuration Items (CIs) in a CMDB/asset-management platform, and read relationships between them — currently ServiceNow (Table API + CMDB Instance API, the latter routed through Identification and Reconciliation for deduplication) and iTop (REST/JSON services). Use when an agent needs to manage inventory/asset records themselves, distinct from change requests, tickets, or DNS/IPAM records that reference those assets. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Does not cover discovery/service-mapping configuration, CI class schema administration, or writing new relationship records.
 argument-hint: "[platform] [action: create|read|update|delete|read_relationships] [ci class/id, fields]"
 ---
 
@@ -22,10 +22,11 @@ deduplication/identification mechanism the platform provides for writes.
 
 ## Universal concepts (shared CMDB vocabulary, not a wire standard)
 
-- **A CI write and a CI's identity are not the same question.** Several platforms (ServiceNow via IRE)
+- **A CI write and a CI's identity are not the same question.** Some platforms (ServiceNow via IRE)
   route writes through an identification step that decides whether the payload matches an *existing*
-  record before deciding to create a new one — treat "the write succeeded" and "a new record was
-  created" as two different facts to confirm, not one.
+  record before deciding to create a new one, while others simply create a new record on every
+  create call — treat "the write succeeded" and "a new record was created" as two different facts to
+  confirm, not one.
 - **Where multiple sources feed the same platform, reconciliation rules (where they exist) decide which
   source wins on a contested field** — a successful write doesn't guarantee the value sticks if a
   higher-priority source claims that field. Don't assume last-write-wins on a platform with a documented
@@ -52,7 +53,7 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Currently covers ServiceNow only — see `references/INDEX.md`. A platform not listed there needs a
+- Currently covers ServiceNow and iTop only — see `references/INDEX.md`. A platform not listed there needs a
   new reference file before this skill can be used for it.
 - Does not cover discovery/service-mapping configuration, CI class schema administration, or writing
   new relationship records — only reading existing relationships is covered where documented.
