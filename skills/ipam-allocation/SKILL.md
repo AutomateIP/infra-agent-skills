@@ -1,6 +1,6 @@
 ---
 name: ipam-allocation
-description: Allocate IP address space (aggregates/prefixes/subnets and individual IP addresses) on a supported IPAM platform — currently NetBox (REST), Infoblox NIOS (WAPI), and SolarWinds IPAM (SOAP/SWIS verb invocation, not REST). Use when an agent needs to reserve network space or assign an IP address, distinct from creating DNS records for that address (see dns-record-management for that). Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Not every platform uses the same call mechanism — check references/INDEX.md before assuming REST.
+description: Allocate IP address space (aggregates/prefixes/subnets and individual IP addresses) on a supported IPAM platform — currently NetBox (REST), Infoblox NIOS (WAPI), SolarWinds IPAM (SOAP/SWIS verb invocation, not REST), Nautobot (REST), Micetro (REST), and phpIPAM (REST). Use when an agent needs to reserve network space or assign an IP address, distinct from creating DNS records for that address (see dns-record-management for that). Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Not every platform uses the same call mechanism — check references/INDEX.md before assuming REST.
 argument-hint: "[platform] [action: allocate_prefix|allocate_ip|create_subnet|reserve_ip] [parent/subnet, size]"
 ---
 
@@ -25,13 +25,14 @@ model is its own product design. What is genuinely shared:
 - **Address space is hierarchical: a parent block is carved into child blocks, which are carved into
   individual addresses.** Every platform in this skill models this, even though the exact terms differ
   (NetBox: aggregate → prefix → IP; Infoblox: network container → network → IP; SolarWinds: subnet →
-  IP node).
+  IP node; Nautobot: prefix → child prefix → IP; Micetro: range → sub-range → IP; phpIPAM: section →
+  subnet, optionally nested → address).
 - **"Available" is often computed, not a stored fact.** Several platforms calculate what's free on the
   fly rather than maintaining a persistent free-list — don't assume a "list available" response is a set
   of real, reservable records; confirm what the specific platform actually guarantees.
 - **Allocation and reservation are not always the same operation.** Some platforms allocate
-  immediately and permanently on one call; others (SolarWinds) have a distinct, time-boxed reservation
-  step before a final commit. Check the target platform's procedure file before assuming either shape.
+  immediately and permanently on one call; others (SolarWinds, and Micetro's optional temporary claim)
+  have a distinct, time-boxed hold before a final commit. Check the target platform's procedure file before assuming either shape.
 - **Not every platform's call mechanism is REST.** SolarWinds IPAM is SOAP/verb-invocation
   (`Invoke-SwisVerb`), not HTTP methods — confirm the mechanism in `references/INDEX.md` before assuming
   GET/POST semantics apply.
@@ -52,8 +53,9 @@ implements this shape concretely.
 ## Known limitations
 
 - Currently covers NetBox, Infoblox NIOS (allocation only, not DNS records — see
-  `dns-record-management` for those), and SolarWinds IPAM. A platform not listed in
-  `references/INDEX.md` needs a new reference file before this skill can be used for it.
+  `dns-record-management` for those), SolarWinds IPAM, Nautobot, Micetro (address space only), and
+  phpIPAM. A platform not listed in `references/INDEX.md` needs a new reference file before this skill
+  can be used for it.
 - Does not cover DHCP scope/lease configuration (see `dhcp-scope-management`), network discovery, or
   DNS record creation on any platform — those are adjacent capabilities, not address-space
   allocation.
