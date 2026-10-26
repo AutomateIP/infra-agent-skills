@@ -93,8 +93,9 @@ one vendor's behavior from ever touching the shared file.
 | [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager |
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, GitLab CI *(pipeline create, poll, job logs, cancel)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)*, GitHub Actions *(workflow dispatch, run poll, logs, cancel)* |
 | [`infrastructure-plan-execution`](skills/infrastructure-plan-execution/) | HashiCorp Terraform CLI *(init, validate, plan, apply a saved plan, destroy plan, state and output reads, import)* |
+| [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Amazon CloudWatch *(read-only metric samples)* |
 
-**129** vendor references across **33** capabilities (3 more are scaffolded with no coverage yet).
+**132** vendor references across **34** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
