@@ -83,7 +83,7 @@ one vendor's behavior from ever touching the shared file.
 | [`repository-pull-request-management`](skills/repository-pull-request-management/) | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 | [`container-workload-deployment`](skills/container-workload-deployment/) | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | [`zero-trust-access-policy-management`](skills/zero-trust-access-policy-management/) | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope, Cloudflare One Gateway, Cloudflare One Access |
-| [`network-state-collection`](skills/network-state-collection/) | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots), Arista CloudVision (read device inventory and events), Zabbix (read current host, interface, and item state), Auvik (read current discovered device and network state), Cisco ACI APIC (read fabric nodes, endpoints, faults, objects) |
+| [`network-state-collection`](skills/network-state-collection/) | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots), Arista CloudVision (read device inventory and events), Zabbix (read current host, interface, and item state), Auvik (read current discovered device and network state), Cisco ACI APIC (read fabric nodes, endpoints, faults, objects), AWS and Azure cloud network configuration *(read-only; AWS Network MCP server, Azure CLI)* |
 | [`network-health-verification`](skills/network-health-verification/) | Cisco pyATS (Health Check, integrated job mode) |
 | [`incident-management`](skills/incident-management/) | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)*, Opsgenie *(incident create, note, resolve, close, reopen, delete)*, Jira Service Management *(incident create, comment, assign, resolve, reopen)*, ManageEngine ServiceDesk Plus *(incident create, edit, assign, note, resolve, close)* |
 | [`compute-instance-provisioning`](skills/compute-instance-provisioning/) | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)*; Google Compute Engine *(create, stop/start, suspend/resume, resize, disk snapshot, delete)*; VMware vSphere *(create, power, resize, delete)*; Morpheus *(create, stop/start, resize, snapshot, delete)* |
@@ -96,7 +96,7 @@ one vendor's behavior from ever touching the shared file.
 | [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Amazon CloudWatch *(read-only metric samples)* |
 | [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*; all read-only |
 
-**136** vendor references across **35** capabilities (3 more are scaffolded with no coverage yet).
+**138** vendor references across **35** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

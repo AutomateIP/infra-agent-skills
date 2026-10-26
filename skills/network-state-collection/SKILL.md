@@ -1,6 +1,6 @@
 ---
 name: network-state-collection
-description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform state or snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, Forward Networks, Arista CloudVision, Zabbix, Auvik, and Cisco ACI APIC; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
+description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform state or snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, Forward Networks, Arista CloudVision, Zabbix, Auvik, Cisco ACI APIC, and read-only AWS and Azure cloud network configuration; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
 ---
 
 # Network State Collection
@@ -40,7 +40,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric, Forward Networks, Arista CloudVision, Zabbix, Auvik, or Cisco ACI APIC platform.
+A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric, Forward Networks, Arista CloudVision, Zabbix, Auvik, or Cisco ACI APIC platform, an AWS Network MCP binding, or an Azure CLI session.
 
 ## Verification checklist
 
