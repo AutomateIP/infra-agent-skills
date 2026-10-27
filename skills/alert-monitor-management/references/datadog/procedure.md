@@ -6,12 +6,11 @@ canceling a downtime against it. Covers the Monitors API (v1) for creation and t
 (an API key plus an application key, both scoped to the target Datadog org/site) is already
 available.
 
-Sources consulted (retrieved 2026-09-29): Datadog API reference, "Monitors" section
+Sources (retrieved 2026-09-29): Datadog API reference, "Monitors" section
 (https://docs.datadoghq.com/api/latest/monitors/); Datadog API reference, "Downtimes" section
 (https://docs.datadoghq.com/api/latest/downtimes/); Datadog "Monitor API Options" guide
-(https://docs.datadoghq.com/monitors/guide/monitor_api_options/); Datadog's own published OpenAPI
-description of the v1 Monitors resource and v2 Downtimes resource, used only to cross-check field
-names already stated in the prose sources above, never as a wording source.
+(https://docs.datadoghq.com/monitors/guide/monitor_api_options/); Datadog's published OpenAPI
+description of the v1 Monitors resource and v2 Downtimes resource, for field names.
 
 ## Operational procedure — create a monitor
 
@@ -40,7 +39,7 @@ names already stated in the prose sources above, never as a wording source.
    call.
 6. **Confirm creation** — a successful response returns the created monitor object including a
    numeric `id`. Report `CREATED` with that id. If the call fails, report `FAILED` with the
-   response body verbatim rather than guessing at the cause — the sources for this skill do not
+   response body verbatim rather than guessing at the cause — the sources do not
    enumerate every possible validation-error string.
 
 ## Operational procedure — suppress, acknowledge, or resolve an alert
@@ -55,7 +54,7 @@ names already stated in the prose sources above, never as a wording source.
      guidance describes a UI/monitor-level "resolve" behavior intended specifically for monitors
      whose data reporting has stopped (so the monitor can no longer naturally re-evaluate back to
      OK) — this is not the same as acknowledging a still-actively-breaching monitor, and the
-     sources consulted for this skill do not document a corresponding API call distinct from the
+     sources do not document a corresponding API call distinct from the
      downtime/data-driven mechanisms above. If the caller needs this specific behavior, say so
      explicitly rather than fabricating an endpoint.
    - Outright resolution of a monitor that is still actively breaching its threshold is not
@@ -93,7 +92,7 @@ names already stated in the prose sources above, never as a wording source.
 
 ## Known limitations
 
-- No documented API call exists (per the sources consulted for this skill) to force a specific,
+- No documented API call exists (per the sources) to force a specific,
   still-actively-breaching monitor back to OK on demand — only downtime-based notification
   suppression and the data-driven no-data "resolve" behavior described above. Do not represent a
   downtime as having resolved the underlying condition; it only stops notifications.

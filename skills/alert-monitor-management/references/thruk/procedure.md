@@ -7,7 +7,7 @@ authenticated client for the Thruk instance is already available; the documentat
 API key sent in a header as the preferred method and says basic authentication works but is not
 recommended (see `endpoints.md`).
 
-Sources consulted (retrieved 2026-10-19): Thruk documentation, "REST API"
+Sources (retrieved 2026-10-19): Thruk documentation, "REST API"
 (https://www.thruk.org/documentation/rest.html); "REST API Commands"
 (https://www.thruk.org/documentation/rest_commands.html); "REST API" examples
 (https://www.thruk.org/documentation/rest_examples.html).
@@ -42,7 +42,7 @@ Each step names a section below; follow that section for inputs, errors and gate
    attributes are not lost. **Deleting an object is irreversible once saved and reloaded: stop and
    confirm first.**
 6. **Whether a service must name its host, and the exact attribute names for a service, are not
-   stated** in the pages consulted (assumption: the usual Naemon attributes apply). Check the
+   stated** in the sources (assumption: the usual Naemon attributes apply). Check the
    documentation for the target core before sending.
 
 ## Operational procedure — acknowledge or remove an acknowledgement
@@ -53,14 +53,14 @@ Each step names a section below; follow that section for inputs, errors and gate
    resolution.
 3. **Submit the acknowledge command for the host or service.** A comment is required. Optional
    arguments are sticky, send-notification, persistent-comment and comment-author. Provide a real
-   comment; do not submit an empty or placeholder value. The pages do not describe the effect or
-   default of each option; defer to the Naemon external-command documentation the pages point to if
+   comment; do not submit an empty or placeholder value. The sources do not describe the effect or
+   default of each option; defer to the Naemon external-command documentation the sources point to if
    the caller has not specified them. Report `ACKNOWLEDGED` on success.
 4. **To remove an acknowledgement**, submit the matching remove-acknowledgement command (no
    arguments). **Stop and confirm with the operator first**, because notifications resume.
    Report `ACKNOWLEDGEMENT_CANCELLED` on success.
 5. **There is no manual "resolve" call.** A problem leaves its non-OK state when a later check
-   result is healthy; the pages document no call that forces it.
+   result is healthy; the sources document no call that forces it.
 
 ## Patterns
 
@@ -71,8 +71,8 @@ Each step names a section below; follow that section for inputs, errors and gate
 
 ## Known limitations
 
-- Rate limits, response bodies for creation, and error formats are not documented in the pages
-  consulted. Back off on an HTTP 429 or 5xx and honor any `Retry-After` header; report other
+- Rate limits, response bodies for creation, and error formats are not documented in the
+  sources. Back off on an HTTP 429 or 5xx and honor any `Retry-After` header; report other
   errors verbatim.
 - Thruk fronts a monitoring core; check execution and thresholds belong to that core's own
   configuration, which this procedure only reaches through Thruk.
