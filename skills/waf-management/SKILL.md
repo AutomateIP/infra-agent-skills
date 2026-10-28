@@ -1,6 +1,6 @@
 ---
 name: waf-management
-description: Create, read, update, and delete web application firewall (WAF) rules, rate-limit rules, and managed-ruleset bindings on a supported platform. Application-layer/HTTP rule management, distinct from firewall-management's network-layer rules and NAT — even where the same vendor offers both. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, and delete web application firewall (WAF) rules, rate-limit rules, and managed-ruleset bindings on a supported platform (Cloudflare WAF). Application-layer/HTTP rule management, distinct from firewall-management's network-layer rules and NAT — even where the same vendor offers both. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it.
 argument-hint: "[platform] [action: create_rule|read_rule|update_rule|delete_rule|bind_managed_ruleset] [rule/ruleset identifier, fields]"
 ---
 
@@ -19,8 +19,14 @@ platform the caller is targeting, following that platform's own documented proce
 
 ## Universal concepts (shared WAF vocabulary, not a wire standard)
 
-No vendor is listed yet, so no claims are stated as shared. Do not assume any shared behavior for a
-platform until its own procedure exists.
+Only one platform is listed, so each claim below holds only where that platform documents it.
+
+- **A rule pairs a match expression with an action and is evaluated in order.** Where documented, some
+  actions end evaluation for that request, so position decides whether a rule ever applies.
+- **A rate-limit rule counts requests per chosen identity over a time window.** Where documented, its
+  action applies once the count passes the limit.
+- **A managed ruleset is a vendor-maintained rule group, bound to the application with optional
+  overrides.** Where documented, a deployment can be tuned per rule.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -37,8 +43,8 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Platform coverage is exactly the platforms in `references/INDEX.md`; a platform not listed there
+  needs a new reference file before this skill can be used for it.
 - Does not cover network-layer firewall rules or NAT, even where the same vendor/product offers
   both — see `firewall-management` for that.
 
