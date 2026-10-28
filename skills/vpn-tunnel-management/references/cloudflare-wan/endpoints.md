@@ -1,7 +1,9 @@
 # Cloudflare WAN — GRE and IPsec Tunnel Endpoints
 
 Wire-level binding for `procedure.md`. Source: Cloudflare Docs API reference for IPsec and GRE
-tunnels under the Magic Transit resource, and "Configure tunnel endpoints" (retrieved 2026-10-26).
+tunnels under the Magic Transit resource, "Configure tunnel endpoints", "Update tunnel health checks
+frequency", and "Querying tunnel health check results with GraphQL" (retrieved 2026-10-26 and
+2026-10-28).
 Base URL: `https://api.cloudflare.com/client/v4`. All calls send `Authorization: Bearer <API_TOKEN>`.
 `{account_id}`, `{ipsec_tunnel_id}`, and `{gre_tunnel_id}` are placeholders.
 
@@ -14,7 +16,6 @@ Base URL: `https://api.cloudflare.com/client/v4`. All calls send `Authorization:
 | Create IPsec tunnel | `POST /accounts/{account_id}/magic/ipsec_tunnels` | `Magic WAN Write` or `Magic Transit Write` |
 | Update IPsec tunnel | `PUT /accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}` | Write |
 | Delete IPsec tunnel | `DELETE /accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}` | Write |
-
 | Generate pre-shared key | `POST /accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}/psk_generate` | Write |
 | Set pre-shared keys | `POST /accounts/{account_id}/magic/ipsec_tunnels/psk` | Write; the response lists `successfully_applied_psks` and `unapplied_psks`. Unverified: request body shape |
 | List GRE tunnels | `GET /accounts/{account_id}/magic/gre_tunnels` | Read or Write |
@@ -70,6 +71,35 @@ IPsec tunnel:
 {"name": "<TUNNEL_NAME>", "description": "<TUNNEL_DESCRIPTION>", "interface_address": "<INTERFACE_ADDRESS>", "cloudflare_endpoint": "<CLOUDFLARE_ENDPOINT>", "customer_endpoint": "<CUSTOMER_ENDPOINT>"}
 ```
 
+## Tunnel health query
+
+| Procedure operation | Method and path |
+|---|---|
+| Query tunnel health | `POST https://api.cloudflare.com/client/v4/graphql`, bearer token, JSON body with `query` and `variables` |
+
+The query asks the account for the `magicTransitTunnelHealthChecksAdaptiveGroups` dataset, with a
+`limit` (the example uses 100) and a filter of `datetime_geq` and `datetime_lt`, and requests
+`avg { tunnelState }` with the dimensions `tunnelName` and `edgeColoName`. `tunnelState` is 1
+healthy, 0.5 degraded, 0 down, as an average over the window per tunnel and data center. Not
+documented: how a value between those three is to be read. The window reaches at most one week, and
+its start no more than three months back. Assumption: the token needs analytics read access. Not
+documented: its exact permission name, any filter by tunnel name, and what happens when more rows
+exist than the limit; the executor narrows the window instead.
+
+The documentation's example response is inconsistent with its query: it nests the results under a
+different key and repeats `tunnelState` inside the dimensions. Read the rows under the dataset name
+that was requested, and take the state from the averaged field.
+
+The health-check rate is the `health_check.rate` field already listed above. The documentation's own
+example of changing it sends only the `health_check` object, whereas the update call requires the
+tunnel's name, interface address, and Cloudflare endpoint; follow Step 6 and send the full tunnel.
+
+Placeholder variables:
+
+```json
+{"accountTag": "<ACCOUNT_ID>", "datetimeStart": "<START_ISO_8601>", "datetimeEnd": "<END_ISO_8601>"}
+```
+
 ## Not covered
 
-The tunnel health state call (Cloudflare documents a tunnel health API, but no route is recorded here: Unverified), static routes, BGP settings and filter profiles, and exact error strings: Not documented.
+Static routes, BGP settings and filter profiles, tunnel health alerts, per-data-center traffic volume, and exact error strings: Not documented.
