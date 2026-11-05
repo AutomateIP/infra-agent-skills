@@ -1,9 +1,5 @@
 # Contributing to Infrastructure Agent Skills
 
-<!-- PLACEHOLDER — adapted from itential-mcp's CONTRIBUTING.md. Sections marked [PLACEHOLDER]
-below depend on decisions not yet made (CI/lint tooling if any). See TODO.md (untracked,
-local) for the open items. -->
-
 Thank you for your interest in contributing to Infrastructure Agent Skills! This document provides
 guidelines and instructions for contributing to this project.
 
@@ -23,7 +19,7 @@ guidelines and instructions for contributing to this project.
 ## Code of Conduct
 
 By participating in this project, you are expected to uphold our Code of Conduct. Please report
-unacceptable behavior to [PLACEHOLDER: contact email].
+unacceptable behavior to info@itential.com.
 
 ## Getting Started
 
@@ -241,4 +237,4 @@ Thank you for contributing to Infrastructure Agent Skills!
 
 ---
 
-For questions about contributing, please contact [PLACEHOLDER: contact email].
+For questions about contributing, please contact info@itential.com.

@@ -1,9 +1,5 @@
 # Security Policy
 
-<!-- PLACEHOLDER — this repo contains skill/procedure content, not executable code, so this policy
-is scoped differently than a typical software project's SECURITY.md. See TODO.md (untracked,
-local) for open items. -->
-
 ## Reporting a Vulnerability or Unsafe Skill Content
 
 We take security seriously, even though this repository contains documentation and agent skill
@@ -27,7 +23,7 @@ definitions rather than executable software. A "vulnerability" here most often m
 
 Instead, please report them through one of the following methods:
 
-1. **Email**: Send details to [PLACEHOLDER: contact email]
+1. **Email**: Send details to info@itential.com
 2. **Private vulnerability disclosure**: Use GitHub's private vulnerability reporting feature
 
 ### What to Include
@@ -74,7 +70,7 @@ only discussed publicly (e.g. in a PR) once a fix is available.
 
 ## Security Contact
 
-- **Reports**: [PLACEHOLDER: contact email] or GitHub's private vulnerability reporting feature
+- **Reports**: info@itential.com or GitHub's private vulnerability reporting feature
 
 ---
 
